@@ -77,7 +77,7 @@ fun ageDescription(age: kotlin.Int): String {
             a = k.rem(10)
             if (a == 1) return "$k год"
             else
-                if (a > 1 && a < 4) return "$k года"
+                if (a > 1 && a <= 4) return "$k года"
                 else return "$k лет"
         }
     }
@@ -131,7 +131,7 @@ fun whichRookThreatens(
     }
     if (kingX == rookX1 || kingY == rookY1) return 1
 
-    if (kingX == rookX2 || kingX == rookY2) return 2
+    if (kingX == rookX2 || kingY == rookY2) return 2
 
     return 0
 
@@ -188,9 +188,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int1{
 fun segmentLength(a: Int1, b: Int1, c: Int1, d: Int1): Int1 {
     if(a>d) return -1
     if (c>b) return -1
-    if(b>d && c>a) return (d-c)
-    if (b>d && a>c) return(d-a)
-    if (d>b && c>a) return (b-c)
-    if (d>b && a>c) return (b-a)
+    if(b>=d && c>=a) return (d-c)
+    if (b>=d && a>=c) return(d-a)
+    if (d>=b && c>=a) return (b-c)
+    if (d>=b && a>=c) return (b-a)
     return 0
 }
