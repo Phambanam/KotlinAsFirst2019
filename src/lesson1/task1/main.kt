@@ -25,8 +25,9 @@ fun main() {
     println("Revert is $N")
     val travling = travelMinutes(9, 25, 13, 1)
     println ("$travling")
-    val a = whichRookThreatens(5,3,7,3,4,8)
-    println(a)
+   // val a = whichRookThreatens(5,3,7,3,4,8)
+   // println(a)
+
 
 }
 
