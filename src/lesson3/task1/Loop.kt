@@ -92,8 +92,16 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
+    var M: IntArray = IntArray(n)
     if (n == 1 || n == 2) return 1
-    return fib(n - 2) + fib(n - 1)
+    M[0] = 1
+    M[1] = 1
+    for(i:Int  in  2 until n)
+    {
+        M[i] = M[i-1]+M[i-2]
+    }
+    return M[n-1]
+
 }
 
 /**
@@ -161,7 +169,7 @@ fun maxDivisor(n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var a: Int = m
     var b: Int = n
-    if (a == b) return false
+    if (a == b) return true
     while (a != b) {
         if (a > b) {
             a = a - b
@@ -240,14 +248,17 @@ fun collatzSteps(x: Int): Int {
 fun sin(x: Double1, eps: Double1): Double1 {
     var a: Double1 = x
     var n: Int = 2
-    var S: Double1 = x
-    while (eps <= abs(a)) {
-        a = -a * x * x / ((n + 1) * n)
-        S = S + a
+
+    if(abs(a) > 2*PI) a = a%(2*PI) + 2*PI
+    var S: Double1 = a
+    var m: Double1 = a
+    while (eps <= abs(m)) {
+        m = -m * a * a / ((n + 1) * n)
+        S = S + m
         n = n + 2
     }
 
-    return round(S).toInt() + 0.0
+    return S
 }
 
 /**
@@ -260,18 +271,20 @@ fun sin(x: Double1, eps: Double1): Double1 {
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
 fun cos(x: Double1, eps: Double1): Double1 {
-    var a: Double1 = 1.0
+    var a: Double1 =  x
     var b: Double1 = 1.0
     var n: Int = 1
-    while (eps <= abs(a)) {
+    if(abs(a) > 2*PI) a = a%(2*PI) + 2*PI
+    var m: Double1 = 1.0
+    while (eps <= abs(m)) {
 
-        a = -a * x * x / (n * (n + 1))
-        b = b + a
+        m = -m * a * a / (n * (n + 1))
+        b = b + m
         n = n + 2
 
     }
-    var h: Double1 = round(b).toInt() + 0.0
-    return h
+
+    return b
 }
 
 
@@ -368,28 +381,23 @@ fun reverse(number: Int): Int {
 
 fun squareSequenceDigit(n: Int): Int {
     var a: Int = 0
-    var x4: Int
-    var b: Int
+    var x4: Int =0
+
     var k: Double
     for (i: Int in 1..n) {
         var t: Int = i * i
-        if (t % 10 == 0) {
-            t = t + 1
-        }
-
-
-        x4 = reverse(t)
-
-
-        while (x4 > 0) {
-            a = a + 1
-
-            b = x4 % 10
-            x4 = x4 / 10
-           if((t-1)%100==0 && x4==1 && a==n && b==0) return 0
-            if (a == n) return b
-        }
-    }
+        x4 = t
+        a += count(t)
+        var b: Int = 0
+ if(a>=n){
+            while(a>=n){
+            b = t%10
+            t=t/10
+            a=a-1
+                        }
+             return b
+      break
+    }}
     return 0
 
 }
@@ -403,4 +411,25 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var a: Int = 0
+    var x4: Int =0
+
+    var k: Double
+    for (i: Int in 1..n) {
+        var t: Int = fib(i)
+        x4 = t
+        a += count(t)
+        var b: Int = 0
+        if(a>=n){
+            while(a>=n){
+                b = t%10
+                t=t/10
+                a=a-1
+            }
+            return b
+            break
+        }}
+    return 0
+
+}
