@@ -101,7 +101,6 @@ fun timeForHalfWay(
     var f2: Double = v2.toDouble()
     var f1: Double = v1.toDouble()
     var S = (t1 * f1 + t2 * f2 + t3 * f3) / 2
-    var k: Double
     if (S > (t1 * f1 + t2 * f2)) return (t1 + t2 + (S - (t1 * f1 + t2 * f2)) / f3)
     else {
         if (S > t1 * f1) return (t1 + (S - t1 * f1) / f2)
