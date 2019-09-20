@@ -7,7 +7,10 @@ import java.lang.Math.pow
 import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.String as String1
-
+import lesson1.task1.discriminant
+import java.lang.Math.pow
+import kotlin.math.sqrt
+import kotlin.collections.MutableList
 /**
  * Пример
  *
@@ -562,7 +565,7 @@ fun russian(n: Int): String1 {
             k=k%1000
             if(k>=100)s=s+" "+A[(k/100)+26]
             k=k%100
-            if(k>=10)s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
+            if(k>=21)s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
             if(k>1&& k<=20)  s+=" "+ A[k-1]
             return s
 
