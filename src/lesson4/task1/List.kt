@@ -331,10 +331,10 @@ fun convertToString(n: Int, base: Int): String1 {
     var N = mutableListOf("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
     val x = mutableListOf<String1>()
     var r: String1 =""
-    val y: MutableList<Int> = mutableListOf<Int>(0)
+    val y: MutableList<String1> = mutableListOf<String1>("0")
     var count : Int = 0
     //Tim cac phan tu cua list
-   if(n==0) return y
+   if(n==0) return y[0]
     while(a>0){
         x.add( (a%t).toString())
         a=a/t
