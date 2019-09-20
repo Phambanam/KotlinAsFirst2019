@@ -510,8 +510,8 @@ fun russian(n: Int): String1 {
     if(count==3){
         s=s+A[(k/100)+26]
         k=k%100
-       if(k>10) s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
-        if(k>1&& k<=20) return A[k-1]
+       if(k>20) s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
+        if(k>=1&& k<=20) s+=" "+ A[k-1]
 
          return s
     }
@@ -526,8 +526,8 @@ fun russian(n: Int): String1 {
         k=k%1000
         if(k>=100)s=s+" "+A[(k/100)+26]
         k=k%100
-        if(k>=10)s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
-        if(k>1&& k<=20) s+=" "+A[k-1]
+        if(k>=21)s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
+        if(k>=1&& k<=20) s+=" "+A[k-1]
         return s
 
     }
@@ -543,8 +543,8 @@ fun russian(n: Int): String1 {
         k=k%1000
         if(k>=100)s=s+" "+A[(k/100)+26]
         k=k%100
-        if(k>=10)s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
-        if(k>1&& k<=20)  s+=" "+ A[k-1]
+        if(k>=21)s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
+        if(k>=1&& k<=20)  s+=" "+ A[k-1]
         return s
 
     }
@@ -576,7 +576,7 @@ fun russian(n: Int): String1 {
             if(k>21 && k%10==0) s+=" "+A[(k/10)+17]
             if(k>=21 && k%10>0)  s=s+" "+A[(k/10)+17]+" "+A[k%10-1]
 
-            if(k>1&& k<=20)  s+=" "+ A[k-1]
+            if(k>=1&& k<=20)  s+=" "+ A[k-1]
             return s
 
         }
