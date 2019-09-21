@@ -52,16 +52,6 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 fun main() {
     val x1x2 = quadraticRootProduct(1.0, 13.0, 42.0)
     println("Root product: $x1x2")
-    val h = seconds(5, 10, 30)
-    println("Seconds: $h")
-    val Met = lengthInMeters(8, 2, 11)
-    println("Met = $Met")
-    val Radian = angleInRadian(36, 14, 35)
-    println("Radian = $Radian")
-    val length = trackLength(3.0, 0.0, 0.0, 4.0)
-    println("length = $length")
-    val three = thirdDigit(3805)
-    println("ThirdDigit is " + three)
 }
 
 /**
@@ -83,7 +73,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val Met = (sagenes * 48 * 4.445 + arshins * 16 * 4.445 + vershoks * 4.445) / 100
-    return Met;
+    return Met
 }
 
 /**
@@ -94,9 +84,9 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  */
 fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
 
-    var m: Double = min.toDouble()
+    val m: Double = min.toDouble()
 
-    var s: Double = sec.toDouble()
+    val s: Double = sec.toDouble()
     val Radian: Double = (deg + m / 60 + s / 3600) * PI / 180
     return Radian
 }
@@ -138,7 +128,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     var s: Double
 
-    var n: Double = percent.toDouble()
+    val n: Double = percent.toDouble()
     s = initial * (1 + n / 100)
     for (i in 1 until 3) {
         s = s * (1 + n / 100)
