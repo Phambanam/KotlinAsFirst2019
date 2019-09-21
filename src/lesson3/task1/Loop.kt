@@ -71,7 +71,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var a: Int = 0
+    var a = 0
     var b: Int = n
     if (b == 0) return 1
     while (b != 0) {
@@ -88,7 +88,7 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var M: IntArray = IntArray(n)
+    val M = IntArray(n)
     if (n == 1 || n == 2) return 1
     M[0] = 1
     M[1] = 1
@@ -127,11 +127,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i: Int in 2..n) {
-        if (n % i == 0) {
-            return i
-            break
-        }
+    for (i: Int in 2..n) if (n % i == 0) {
+        return i
+        break
     }
     return 0
 }
@@ -142,7 +140,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var a: Int = n
+    val a: Int = n
 
     for (i: Int in 2..a) {
         if (a % i == 0) {
@@ -186,7 +184,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     for (i: Int in m..n) {
-        var k: Int = sqrt1(i + 0.0).toInt()
+        val k: Int = sqrt1(i + 0.0).toInt()
         if (k * k == i) {
             return true
             break
@@ -214,7 +212,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun collatzSteps(x: Int): Int {
     var k: Int = x
-    var count: Int = 0
+    var count  = 0
     while (k != 1) {
         if (k % 2 == 0) {
             k = k / 2
@@ -241,7 +239,7 @@ fun collatzSteps(x: Int): Int {
 
 fun sin(x: Double1, eps: Double1): Double1 {
     var a: Double1 = x
-    var n: Int = 2
+    var n  = 2
 
     if (abs(a) > 2 * PI) a = a % (2 * PI) + 2 * PI
     var S: Double1 = a
@@ -266,10 +264,10 @@ fun sin(x: Double1, eps: Double1): Double1 {
  */
 fun cos(x: Double1, eps: Double1): Double1 {
     var a: Double1 = x
-    var b: Double1 = 1.0
-    var n: Int = 1
+    var b  = 1.0
+    var n  = 1
     if (abs(a) > 2 * PI) a = a % (2 * PI) + 2 * PI
-    var m: Double1 = 1.0
+    var m = 1.0
     while (eps <= abs(m)) {
 
         m = -m * a * a / (n * (n + 1))
@@ -290,7 +288,7 @@ fun cos(x: Double1, eps: Double1): Double1 {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int {
-    var number: Int = 0
+    var number = 0
     var i: Int = n
     while (i > 0) {
         number = number * 10 + i % 10
@@ -309,7 +307,7 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-    var number: Int = 0
+    var number  = 0
     var i: Int = n
     while (i > 0) {
         number = number * 10 + i % 10
@@ -328,14 +326,13 @@ fun isPalindrome(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var number: Int = 1
+    var number = 1
     var i: Int = n
     if (n <= 9) return false
     while (i >= 10) {
         number = number * 10 + 1
         i = i / 10
     }
-    println(number)
     if (n % number == 0) return false
     return true
 }
@@ -350,10 +347,10 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun count(n: Int): Int {
-    var a: Int = 0
+    var a = 0
     var t: Int = n
     while (t > 0) {
-        t = t / 10;
+        t = t / 10
         a++
     }
     return a
@@ -374,11 +371,11 @@ fun reverse(number: Int): Int {
 }
 
 fun squareSequenceDigit(n: Int): Int {
-    var a: Int = 0
+    var a = 0
     for (i: Int in 1..n) {
         var t: Int = i * i
         a += count(t)
-        var b: Int = 0
+        var b = 0
         if (a >= n) {
             while (a >= n) {
                 b = t % 10
@@ -403,11 +400,11 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var a: Int = 0
+    var a = 0
     for (i: Int in 1..n) {
         var t: Int = fib(i)
         a += count(t)
-        var b: Int = 0
+        var b  = 0
         if (a >= n) {
             while (a >= n) {
                 b = t % 10
