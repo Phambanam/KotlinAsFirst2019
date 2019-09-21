@@ -2,7 +2,8 @@
 
 package lesson1.task1
 
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.sqrt
 
 /**
  * Пример
@@ -124,7 +125,8 @@ fun thirdDigit(number: Int): Int = ((number.div(100)).rem(10))
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = (hoursArrive*60+minutesArrive-hoursDepart*60-minutesDepart)
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+    (hoursArrive * 60 + minutesArrive - hoursDepart * 60 - minutesDepart)
 
 /**
  * Простая
@@ -153,13 +155,13 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
 fun numberRevert(number: Int): Int {
     var a: Int
     var b: Int
-    var i :Int
+    var i: Int
     a = 0
     i = number
     while (i > 0) {
         b = i.rem(10)
-        a = a*10 + b
-       i = i.div(10)
+        a = a * 10 + b
+        i = i.div(10)
     }
     return a
 }

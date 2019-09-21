@@ -1,12 +1,9 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
 
 package lesson3.task1
 
-import lesson1.task1.sqr
-import java.lang.Math.*
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import java.lang.Math.PI
+import java.lang.Math.abs
 import kotlin.Double as Double1
 import kotlin.math.sqrt as sqrt1
 
@@ -95,11 +92,10 @@ fun fib(n: Int): Int {
     if (n == 1 || n == 2) return 1
     M[0] = 1
     M[1] = 1
-    for(i:Int  in  2 until n)
-    {
-        M[i] = M[i-1]+M[i-2]
+    for (i: Int in 2 until n) {
+        M[i] = M[i - 1] + M[i - 2]
     }
-    return M[n-1]
+    return M[n - 1]
 
 }
 
@@ -168,7 +164,7 @@ fun maxDivisor(n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var a: Int = m
     var b: Int = n
-    if(a==1 && b==1) return true
+    if (a == 1 && b == 1) return true
     if (a == b) return false
     while (a != b) {
         if (a > b) {
@@ -189,8 +185,6 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var a: Int = m
-    var b: Int = n
     for (i: Int in m..n) {
         var k: Int = sqrt1(i + 0.0).toInt()
         if (k * k == i) {
@@ -249,7 +243,7 @@ fun sin(x: Double1, eps: Double1): Double1 {
     var a: Double1 = x
     var n: Int = 2
 
-    if(abs(a) > 2*PI) a = a%(2*PI) + 2*PI
+    if (abs(a) > 2 * PI) a = a % (2 * PI) + 2 * PI
     var S: Double1 = a
     var m: Double1 = a
     while (eps <= abs(m)) {
@@ -271,10 +265,10 @@ fun sin(x: Double1, eps: Double1): Double1 {
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
 fun cos(x: Double1, eps: Double1): Double1 {
-    var a: Double1 =  x
+    var a: Double1 = x
     var b: Double1 = 1.0
     var n: Int = 1
-    if(abs(a) > 2*PI) a = a%(2*PI) + 2*PI
+    if (abs(a) > 2 * PI) a = a % (2 * PI) + 2 * PI
     var m: Double1 = 1.0
     while (eps <= abs(m)) {
 
@@ -381,23 +375,20 @@ fun reverse(number: Int): Int {
 
 fun squareSequenceDigit(n: Int): Int {
     var a: Int = 0
-    var x4: Int =0
-
-    var k: Double
     for (i: Int in 1..n) {
         var t: Int = i * i
-        x4 = t
         a += count(t)
         var b: Int = 0
- if(a>=n){
-            while(a>=n){
-            b = t%10
-            t=t/10
-            a=a-1
-                        }
-             return b
-      break
-    }}
+        if (a >= n) {
+            while (a >= n) {
+                b = t % 10
+                t = t / 10
+                a = a - 1
+            }
+            return b
+            break
+        }
+    }
     return 0
 
 }
@@ -413,23 +404,19 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var a: Int = 0
-    var x4: Int =0
-
-    var k: Double
     for (i: Int in 1..n) {
         var t: Int = fib(i)
-        x4 = t
         a += count(t)
         var b: Int = 0
-        if(a>=n){
-            while(a>=n){
-                b = t%10
-                t=t/10
-                a=a-1
+        if (a >= n) {
+            while (a >= n) {
+                b = t % 10
+                t = t / 10
+                a = a - 1
             }
             return b
-            break
-        }}
+        }
+    }
     return 0
 
 }

@@ -1,10 +1,5 @@
 package lesson1.task1
 
-import lesson2.task1.minBiRoot
-import lesson2.task1.whichRookThreatens
-import lesson3.task1.cos
-import lesson2.task1.ageDescription as ageDescription
-
 /**
  * Пример главной функции
  */

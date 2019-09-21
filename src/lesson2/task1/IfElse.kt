@@ -166,11 +166,11 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int1{
-    if (a+b<c||a+c<b||b+c<a) return -1
+fun triangleKind(a: Double, b: Double, c: Double): Int1 {
+    if (a + b < c || a + c < b || b + c < a) return -1
     else {
-        if (a*a == b*b +c*c ||a*a + b*b == c*c || a*a+c*c == b*b) return 1
-        if (a*a > b*b +c*c ||a*a + b*b < c*c || a*a+c*c < b*b) return 2
+        if (a * a == b * b + c * c || a * a + b * b == c * c || a * a + c * c == b * b) return 1
+        if (a * a > b * b + c * c || a * a + b * b < c * c || a * a + c * c < b * b) return 2
         return 0
     }
 
@@ -185,11 +185,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int1{
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int1, b: Int1, c: Int1, d: Int1): Int1 {
-    if(a>d) return -1
-    if (c>b) return -1
-    if(b>=d && c>=a) return (d-c)
-    if (b>=d && a>=c) return(d-a)
-    if (d>=b && c>=a) return (b-c)
-    if (d>=b && a>=c) return (b-a)
+    if (a > d) return -1
+    if (c > b) return -1
+    if (b >= d && c >= a) return (d - c)
+    if (b >= d && a >= c) return (d - a)
+    if (d >= b && c >= a) return (b - c)
+    if (d >= b && a >= c) return (b - a)
     return 0
 }
