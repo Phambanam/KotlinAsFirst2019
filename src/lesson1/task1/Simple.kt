@@ -72,8 +72,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val Met = (sagenes * 48 * 4.445 + arshins * 16 * 4.445 + vershoks * 4.445) / 100
-    return Met
+    val met = (sagenes * 48 * 4.445 + arshins * 16 * 4.445 + vershoks * 4.445) / 100
+    return met
 }
 
 /**
@@ -87,8 +87,8 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
     val m: Double = min.toDouble()
 
     val s: Double = sec.toDouble()
-    val Radian: Double = (deg + m / 60 + s / 3600) * PI / 180
-    return Radian
+    val radian: Double = (deg + m / 60 + s / 3600) * PI / 180
+    return radian
 }
 
 /**
@@ -130,9 +130,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
 
     val n: Double = percent.toDouble()
     s = initial * (1 + n / 100)
-    for (i in 1 until 3) {
-        s = s * (1 + n / 100)
-    }
+    for (i in 1 until 3) s *= (1 + n / 100)
     return s
 }
 

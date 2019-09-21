@@ -22,17 +22,17 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    var a: Int = 0
-    var b: Int = 0
-    var S: Int
-    S = number
-    while (S > 99) { //
-        a = a + S % 10// tinh tong 2 chu so cuoi cung
-        S = S / 10
+    var a = 0
+    var b = 0
+    var s: Int
+    s = number
+    while (s > 99) { //
+        a = a + s % 10// tinh tong 2 chu so cuoi cung
+        s = s / 10
     }
-    while (S > 0) {
-        b = b + S % 10 // tinh tong 2 chu so dau tien
-        S = S / 10
+    while (s > 0) {
+        b = b + s % 10 // tinh tong 2 chu so dau tien
+        s = s / 10
     }
     if (a != b) return false
     return true
@@ -102,11 +102,11 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    var n: Int = max(a, b)
-    var k: Int = max(n, c)
-    var t: Int = min(a, b)
-    var j: Int = min(t, c)
-    var q: Int = a + b + c - k - j
+    val n: Int = max(a, b)
+    val k: Int = max(n, c)
+    val t: Int = min(a, b)
+    val j: Int = min(t, c)
+    val q: Int = a + b + c - k - j
     if ((r >= q && s >= j) || (r >= j && s >= q)) return true
     return false
 }

@@ -66,9 +66,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: kotlin.Int): String {
-    var k: kotlin.Int = age
+    val k: kotlin.Int = age
 
-    var a: kotlin.Int
+    val a: kotlin.Int
     if (k > 104 && k < 121) return "$k лет"
     else {
         if (k > 4 && k < 21) return "$k лет"
@@ -97,15 +97,15 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    var f3: Double = v3.toDouble()
-    var f2: Double = v2.toDouble()
-    var f1: Double = v1.toDouble()
-    var S = (t1 * f1 + t2 * f2 + t3 * f3) / 2
-    if (S > (t1 * f1 + t2 * f2)) return (t1 + t2 + (S - (t1 * f1 + t2 * f2)) / f3)
+    val f3: Double = v3
+    val f2: Double = v2
+    val f1: Double = v1
+    val s = (t1 * f1 + t2 * f2 + t3 * f3) / 2
+    if (s > (t1 * f1 + t2 * f2)) return (t1 + t2 + (s - (t1 * f1 + t2 * f2)) / f3)
     else {
-        if (S > t1 * f1) return (t1 + (S - t1 * f1) / f2)
+        if (s > t1 * f1) return (t1 + (s - t1 * f1) / f2)
         else {
-            if (S < f1 * t1) return t1 - (f1 * t1 - S) / f1
+            if (s < f1 * t1) return t1 - (f1 * t1 - s) / f1
         }
     }
     return -1.0
