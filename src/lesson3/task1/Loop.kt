@@ -75,7 +75,7 @@ fun digitNumber(n: Int): Int {
     var b: Int = n
     if (b == 0) return 1
     while (b != 0) {
-        b = b / 10
+        b /= 10
         a++
     }
     return a
@@ -113,9 +113,9 @@ fun lcm(m: Int, n: Int): Int {
     if (a == b) return a
     while (a != b) {
         if (a > b) {
-            a = a - b
+            a -= b
         } else {
-            b = b - a
+            b -= a
         }
     }
     return m * n / (a)
@@ -215,7 +215,7 @@ fun collatzSteps(x: Int): Int {
     var i = 0
     while (k != 1) {
         if (k % 2 == 0) {
-            k = k / 2
+            k /= 2
             i++
         } else {
             k = 3 * k + 1

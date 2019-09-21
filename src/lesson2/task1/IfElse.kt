@@ -69,15 +69,15 @@ fun ageDescription(age: kotlin.Int): String {
     val k: kotlin.Int = age
 
     val a: kotlin.Int
-    if (k > 104 && k < 121) return "$k лет"
+    if (k in 105..120) return "$k лет"
     else {
-        if (k > 4 && k < 21) return "$k лет"
+        if (k in 5..20) return "$k лет"
         else {
 
             a = k.rem(10)
             if (a == 1) return "$k год"
             else
-                if (a > 1 && a <= 4) return "$k года"
+                if (a in 2..4) return "$k года"
                 else return "$k лет"
         }
     }
