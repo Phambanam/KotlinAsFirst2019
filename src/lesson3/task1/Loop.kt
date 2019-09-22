@@ -144,7 +144,7 @@ fun maxDivisor(n: Int): Int {
     val a: Int = sqrt(n.toDouble()).toInt()
 
     for (i: Int in 1 .. a) {
-        if (n % i == 0 && i > 1) return n/i
+        if (n % i == 0 && i >1 ) return n/i
     }
 
     return 1

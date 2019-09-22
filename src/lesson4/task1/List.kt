@@ -630,7 +630,9 @@ fun russian(n: Int1): String1 {
         k %= 1000
         if (k >= 100) s += " " + arr[(k / 100) + 26]
         k %= 100
-        if (k >= 21) s += " " + arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
+        k %= 100
+        if (k > 21 && k % 10 == 0) s += " " + arr[(k / 10) + 17]
+        if (k >= 21 && k % 10 > 0) s += " " + arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
         if (k in 1..20) s += " " + arr[k - 1]
         return s
 
@@ -661,7 +663,6 @@ fun russian(n: Int1): String1 {
         k %= 100
         if (k > 21 && k % 10 == 0) s += " " + arr[(k / 10) + 17]
         if (k >= 21 && k % 10 > 0) s += " " + arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
-
         if (k in 1..20) s += " " + arr[k - 1]
         return s
 
