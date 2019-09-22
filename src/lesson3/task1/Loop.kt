@@ -2,8 +2,7 @@
 
 package lesson3.task1
 
-import java.lang.Math.PI
-import java.lang.Math.abs
+import java.lang.Math.*
 import kotlin.Double as Double1
 import kotlin.math.sqrt as sqrt1
 
@@ -127,11 +126,13 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i: Int in 2..n) if (n % i == 0) {
-        return i
-        break
+    val a: Int = sqrt(n.toDouble()).toInt()
+
+    for (i: Int in 1 .. a) {
+        if (n % i == 0 && i > 1) return i
     }
-    return 0
+
+    return n
 }
 
 /**
@@ -140,14 +141,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    val a: Int = n
+    val a: Int = sqrt(n.toDouble()).toInt()
 
-    for (i: Int in 2..a) {
-        if (a % i == 0) {
-            return a / i
-            break
-        }
+    for (i: Int in 1 .. a) {
+        if (n % i == 0 && i > 1) return n/i
     }
+
     return 1
 }
 
@@ -166,9 +165,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     if (a == b) return false
     while (a != b) {
         if (a > b) {
-            a = a - b
+            a -= b
         } else {
-            b = b - a
+            b -= a
         }
     }
     if (a == 1) return true
