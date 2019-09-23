@@ -71,7 +71,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var a = 0
-    var b: Int = n
+    var b= n
     if (b == 0) return 1
     while (b != 0) {
         b /= 10
@@ -91,7 +91,7 @@ fun fib(n: Int): Int {
     if (n == 1 || n == 2) return 1
     m[0] = 1
     m[1] = 1
-    for (i: Int in 2 until n) {
+    for (i in 2 until n) {
         m[i] = m[i - 1] + m[i - 2]
     }
     return m[n - 1]
@@ -105,12 +105,11 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var a: Int
-    var b: Int
-    a = m
-    b = n
-    if (a == b) return a
-    while (a != b) {
+    var a = m
+    var b = n
+
+    if (m == n) return m
+    while (a!= b) {
         if (a > b) {
             a -= b
         } else {
@@ -126,12 +125,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    val a: Int = sqrt(n.toDouble()).toInt()
-
-    for (i: Int in 1..a) {
-        if (n % i == 0 && i > 1) return i
-    }
-
+    for (i in 1..sqrt(n.toDouble()).toInt()) if (n % i == 0 && i > 1) return i
     return n
 }
 
@@ -141,12 +135,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    val a: Int = sqrt(n.toDouble()).toInt()
-
-    for (i: Int in 1..a) {
+    for (i in 1..sqrt(n.toDouble()).toInt()) {
         if (n % i == 0 && i > 1) return n / i
     }
-
     return 1
 }
 
@@ -159,8 +150,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var a: Int = m
-    var b: Int = n
+    var a = m
+    var b = n
     if (a == 1 && b == 1) return true
     if (a == b) return false
     while (a != b) {
@@ -182,9 +173,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i: Int in m..n) {
-        val k: Int = sqrt1(i + 0.0).toInt()
-        if (k * k == i) {
+    for (i in m..n) {
+        if (sqrt1(i + 0.0).toInt() *sqrt1(i + 0.0).toInt() == i) {
             return true
             break
         }
@@ -210,7 +200,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    var k: Int = x
+    var k = x
     var i = 0
     while (k != 1) {
         if (k % 2 == 0) {
@@ -237,18 +227,17 @@ fun collatzSteps(x: Int): Int {
 
 
 fun sin(x: Double1, eps: Double1): Double1 {
-    var a: Double1 = x
+    var a = x
     var n = 2
 
     if (abs(a) > 2 * PI) a = a % (2 * PI) + 2 * PI
-    var s: Double1 = a
-    var m: Double1 = a
+    var s = a
+    var m = a
     while (eps <= abs(m)) {
-        m = -m * a * a / ((n + 1) * n)
+        m *= -a * a / ((n + 1) * n)
         s += m
         n += 2
     }
-
     return s
 }
 
@@ -262,19 +251,16 @@ fun sin(x: Double1, eps: Double1): Double1 {
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
 fun cos(x: Double1, eps: Double1): Double1 {
-    var a: Double1 = x
+    var a = x
     var b = 1.0
     var n = 1
     if (abs(a) > 2 * PI) a = a % (2 * PI) + 2 * PI
     var m = 1.0
     while (eps <= abs(m)) {
-
         m = -m * a * a / (n * (n + 1))
         b += m
         n += 2
-
     }
-
     return b
 }
 
@@ -288,7 +274,7 @@ fun cos(x: Double1, eps: Double1): Double1 {
  */
 fun revert(n: Int): Int {
     var number = 0
-    var i: Int = n
+    var i= n
     while (i > 0) {
         number = number * 10 + i % 10
         i /= 10
@@ -307,7 +293,7 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     var number = 0
-    var i: Int = n
+    var i= n
     while (i > 0) {
         number = number * 10 + i % 10
         i /= 10
@@ -326,7 +312,7 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = 1
-    var i: Int = n
+    var i = n
     if (n <= 9) return false
     while (i >= 10) {
         number = number * 10 + 1
@@ -347,7 +333,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun count(n: Int): Int {
     var a = 0
-    var t: Int = n
+    var t = n
     while (t > 0) {
         t /= 10
         a++
@@ -357,8 +343,8 @@ fun count(n: Int): Int {
 
 fun squareSequenceDigit(n: Int): Int {
     var a = 0
-    for (i: Int in 1..n) {
-        var t: Int = i * i
+    for (i in 1..n) {
+        var t= i * i
         a += count(t)
         var b = 0
         if (a >= n) {
@@ -372,7 +358,6 @@ fun squareSequenceDigit(n: Int): Int {
         }
     }
     return 0
-
 }
 
 /**
@@ -386,8 +371,8 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var a = 0
-    for (i: Int in 1..n) {
-        var t: Int = fib(i)
+    for (i in 1..n) {
+        var t = fib(i)
         a += count(t)
         var b = 0
         if (a >= n) {
@@ -400,5 +385,4 @@ fun fibSequenceDigit(n: Int): Int {
         }
     }
     return 0
-
 }

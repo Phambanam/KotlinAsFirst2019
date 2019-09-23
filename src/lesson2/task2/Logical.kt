@@ -27,12 +27,12 @@ fun isNumberHappy(number: Int): Boolean {
     var s: Int
     s = number
     while (s > 99) { //
-        a = a + s % 10// tinh tong 2 chu so cuoi cung
-        s = s / 10
+        a += s % 10// tinh tong 2 chu so cuoi cung
+        s /= 10
     }
     while (s > 0) {
-        b = b + s % 10 // tinh tong 2 chu so dau tien
-        s = s / 10
+        b += s % 10 // tinh tong 2 chu so dau tien
+        s /= 10
     }
     if (a != b) return false
     return true
@@ -45,10 +45,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (x1 == x2 || y1 == y2 || sqr(x1 - x2) == sqr(y1 - y2)) return true
-    return false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = (x1 == x2 || y1 == y2 || sqr(x1 - x2) == sqr(y1 - y2))
 
 
 /**
@@ -57,25 +54,13 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int {
-    when (month) {
-        1 -> return 31
-        2 -> if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) return 29 else return 28
-        3 -> return 31
-        4 -> return 30
-        5 -> return 31
-        6 -> return 30
-        7 -> return 31
-        8 -> return 31
-        9 -> return 30
-        10 -> return 31
-        11 -> return 30
-        12 -> return 31
-
-
+fun daysInMonth(month: Int, year: Int): Int =
+    when {
+        (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) -> 31
+        (month == 2 && (year % 4 == 0 && year % 100 != 0 || year % 400 == 0)) -> 29
+        month == 2 -> 28
+        else -> 30
     }
-    return -1
-}
 
 /**
  * Средняя
@@ -87,10 +72,8 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean {
-    if (r2 >= (sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1)) return true
-    return false
-}
+): Boolean = (r2 >= (sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1))
+
 
 /**
  * Средняя
@@ -102,11 +85,11 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val n: Int = max(a, b)
-    val k: Int = max(n, c)
-    val t: Int = min(a, b)
-    val j: Int = min(t, c)
-    val q: Int = a + b + c - k - j
+    val n = max(a, b)
+    val k = max(n, c)
+    val t = min(a, b)
+    val j = min(t, c)
+    val q = a + b + c - k - j
     if ((r >= q && s >= j) || (r >= j && s >= q)) return true
     return false
 }

@@ -189,13 +189,12 @@ fun times(a: List<Int1>, b: List<Int1>): Int1 {
 
 fun polynom(p: List<Int1>, x: Int1): Int1 {
     var t = 0
-    val y: Int1 = x
+    val y = x
     if (p.isEmpty()) return 0
 
-    for (i: Int1 in 0 until p.size) {
-        val a: Int1 = pow(y.toDouble(), i.toDouble()).toInt()
+    for (i in 0 until p.size) {
+        val a = pow(y.toDouble(), i.toDouble()).toInt()
         t = t + p[i] * a
-
     }
     return t
 }
@@ -211,12 +210,10 @@ fun polynom(p: List<Int1>, x: Int1): Int1 {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int1>): MutableList<Int1> {
-    for (i: Int1 in 1 until list.size) {
+    for (i in 1 until list.size) {
         list[i] += list[i - 1]
-
     }
     return list
-
 }
 
 /**
@@ -228,7 +225,7 @@ fun accumulate(list: MutableList<Int1>): MutableList<Int1> {
  */
 // Ham tim so nguyen to
 fun prime(n: Int1): Boolean {
-    val a: Int1 = n
+    val a = n
     if (a < 2) return false
     if (a == 2 && a == 3) return true
     if (a > 3) {
@@ -237,14 +234,12 @@ fun prime(n: Int1): Boolean {
                 return false
             }
     }
-
     return true
-
 }
 
 fun factorize(n: Int1): List<Int1> {
     val a = mutableListOf<Int1>()
-    var b: Int1 = n
+    var b = n
     if (prime(b)) {
         a.add(b)
         return a
@@ -269,7 +264,7 @@ fun factorize(n: Int1): List<Int1> {
  */
 fun factorizeToString(n: Int1): String1 {
     var a = ""
-    var b: Int1 = n
+    var b= n
     if (prime(b)) {
         a = a.plus("$b")
         return a
@@ -294,23 +289,19 @@ fun factorizeToString(n: Int1): String1 {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int1, base: Int1): List<Int1> {
-    var a: Int1 = n
-    val t: Int1 = base
+    var a = n
     val x = mutableListOf<Int1>()
     val y = mutableListOf<Int1>(0)
     val r = mutableListOf<Int1>()
     var count = 0
     if (a == 0) return y
     while (a > 0) {
-        x.add(a % t)
-        a /= t
+        x.add(a % base)
+        a /= base
         count += 1
-
     }
-
     for (j: Int1 in (x.size - 1) downTo 0) {
         r.add(x[j])
-
     }
     return r
 }
@@ -327,8 +318,7 @@ fun convert(n: Int1, base: Int1): List<Int1> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int1, base: Int1): String1 {
-    var a: Int1 = n
-    val t: Int1 = base
+    var a = n
     val m = mutableListOf(
         "a",
         "b",
@@ -364,18 +354,15 @@ fun convertToString(n: Int1, base: Int1): String1 {
     //Tim cac phan tu cua list
     if (n == 0) return y[0]
     while (a > 0) {
-        x.add((a % t).toString())
-        a /= t
+        x.add((a % base).toString())
+        a /= base
         count += 1
-
     }
-
-    for (j: Int1 in (x.size - 1) downTo 0) {
+    for (j in (x.size - 1) downTo 0) {
         if (x[j].toInt() >= 10) {
             x[j] = m[x[j].toInt() - 10]
         }
         r = r.plus(x[j])
-
     }
     return r
 }
@@ -388,14 +375,12 @@ fun convertToString(n: Int1, base: Int1): String1 {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int1>, base: Int1): Int1 {
-    val n: Int1 = base
+    val n= base
     var s = 0
     var k: Double
-    for (i: Int1 in digits.size - 1 downTo 0) {
+    for (i in digits.size - 1 downTo 0) {
         k = n.toDouble().pow(digits.size - 1 - i.toDouble())
-
         s += digits[i] * (k.toInt())
-
     }
     return s
 }
@@ -483,7 +468,6 @@ fun roman(n: Int1): String1 {
         s += "D"
         m -= 500
     }
-
     if (m >= 400) {
         s += "CD"
         m -= 400
@@ -539,8 +523,8 @@ fun roman(n: Int1): String1 {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int1): String1 {
-    var m: Int1 = n
-    var k: Int1 = n
+    var m = n
+    var k= n
     var s = ""
     var count = 0
     while (m > 0) {
