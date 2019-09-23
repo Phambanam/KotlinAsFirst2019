@@ -128,7 +128,7 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     val a: Int = sqrt(n.toDouble()).toInt()
 
-    for (i: Int in 1 .. a) {
+    for (i: Int in 1..a) {
         if (n % i == 0 && i > 1) return i
     }
 
@@ -143,8 +143,8 @@ fun minDivisor(n: Int): Int {
 fun maxDivisor(n: Int): Int {
     val a: Int = sqrt(n.toDouble()).toInt()
 
-    for (i: Int in 1 .. a) {
-        if (n % i == 0 && i >1 ) return n/i
+    for (i: Int in 1..a) {
+        if (n % i == 0 && i > 1) return n / i
     }
 
     return 1

@@ -646,7 +646,7 @@ fun russian(n: Int1): String1 {
         else s += arr[(p / 100) + 26]
         q = p % 100
 
-        if (q == 1) s += " " + "одна" + " " +arr[36]
+        if (q == 1) s += " " + "одна" + " " + arr[36]
         if (q / 10 == 0) {
             if (q % 10 == 2) s += " " + "две" + " " + arr[37]
             if (q % 10 in 3..4) s += " " + arr[q - 1] + " " + arr[37]
