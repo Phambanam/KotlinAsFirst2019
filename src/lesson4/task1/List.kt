@@ -608,6 +608,7 @@ fun russian(n: Int1): String1 {
     if (count == 5) {
         val q: Int1 = k / 1000
         if ((q % 10 == 1 && q > 11)) s += arr[(q / 10) + 17] + " " + "одна" + " " + arr[36]
+        if (q % 10 == 0) s += arr[(q / 10) + 17] + " " + arr[38]
         if (q % 10 > 2 && q % 10 <= 4 && q > 20) s += arr[(q / 10) + 17] + " " + arr[q % 10 - 1] + " " + arr[37]
         if (q % 10 == 2 && q > 20) s += arr[(q / 10) + 17] + " " + "две" + " " + arr[37]
         if (q in 10..20) s += arr[q - 1] + " " + arr[38]
