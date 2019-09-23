@@ -264,7 +264,7 @@ fun factorize(n: Int1): List<Int1> {
  */
 fun factorizeToString(n: Int1): String1 {
     var a = ""
-    var b= n
+    var b = n
     if (prime(b)) {
         a = a.plus("$b")
         return a
@@ -375,7 +375,7 @@ fun convertToString(n: Int1, base: Int1): String1 {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int1>, base: Int1): Int1 {
-    val n= base
+    val n = base
     var s = 0
     var k: Double
     for (i in digits.size - 1 downTo 0) {
@@ -524,7 +524,7 @@ fun roman(n: Int1): String1 {
  */
 fun russian(n: Int1): String1 {
     var m = n
-    var k= n
+    var k = n
     var s = ""
     var count = 0
     while (m > 0) {

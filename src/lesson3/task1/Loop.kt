@@ -71,7 +71,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var a = 0
-    var b= n
+    var b = n
     if (b == 0) return 1
     while (b != 0) {
         b /= 10
@@ -109,7 +109,7 @@ fun lcm(m: Int, n: Int): Int {
     var b = n
 
     if (m == n) return m
-    while (a!= b) {
+    while (a != b) {
         if (a > b) {
             a -= b
         } else {
@@ -174,7 +174,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     for (i in m..n) {
-        if (sqrt1(i + 0.0).toInt() *sqrt1(i + 0.0).toInt() == i) {
+        if (sqrt1(i + 0.0).toInt() * sqrt1(i + 0.0).toInt() == i) {
             return true
             break
         }
@@ -274,7 +274,7 @@ fun cos(x: Double1, eps: Double1): Double1 {
  */
 fun revert(n: Int): Int {
     var number = 0
-    var i= n
+    var i = n
     while (i > 0) {
         number = number * 10 + i % 10
         i /= 10
@@ -293,7 +293,7 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     var number = 0
-    var i= n
+    var i = n
     while (i > 0) {
         number = number * 10 + i % 10
         i /= 10
@@ -344,7 +344,7 @@ fun count(n: Int): Int {
 fun squareSequenceDigit(n: Int): Int {
     var a = 0
     for (i in 1..n) {
-        var t= i * i
+        var t = i * i
         a += count(t)
         var b = 0
         if (a >= n) {
