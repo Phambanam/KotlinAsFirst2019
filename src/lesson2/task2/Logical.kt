@@ -21,22 +21,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean {
-    var a = 0
-    var b = 0
-    var s: Int
-    s = number
-    while (s > 99) { //
-        a += s % 10// tinh tong 2 chu so cuoi cung
-        s /= 10
-    }
-    while (s > 0) {
-        b += s % 10 // tinh tong 2 chu so dau tien
-        s /= 10
-    }
-    if (a != b) return false
-    return true
-}
+fun isNumberHappy(number: Int): Boolean =
+    ((number % 10 + (number % 100) / 10)) == ((number / 100) % 10 + (number / 1000))
+
 
 /**
  * Простая
@@ -90,6 +77,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val t = min(a, b)
     val j = min(t, c)
     val q = a + b + c - k - j
-    if ((r >= q && s >= j) || (r >= j && s >= q)) return true
-    return false
+    return ((r >= q && s >= j) || (r >= j && s >= q))
 }

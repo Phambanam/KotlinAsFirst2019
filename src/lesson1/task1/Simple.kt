@@ -3,6 +3,7 @@
 package lesson1.task1
 
 import kotlin.math.PI
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -60,9 +61,8 @@ fun main() {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    return hours * 3600 + minutes * 60 + seconds
-}
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
+
 
 /**
  * Тривиальная
@@ -116,11 +116,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double {
-    var s = initial * (1 + percent.toDouble() / 100)
-    for (i in 1 until 3) s *= (1 + percent.toDouble() / 100)
-    return s
-}
+fun accountInThreeYears(initial: Int, percent: Int): Double = initial * (1 + percent.toDouble() / 100).pow(3)
+
 
 /**
  * Простая

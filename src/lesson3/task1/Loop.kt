@@ -134,12 +134,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    for (i in 1..sqrt(n.toDouble()).toInt()) {
-        if (n % i == 0 && i > 1) return n / i
-    }
-    return 1
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 
 /**
@@ -161,7 +156,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
             b -= a
         }
     }
-    if (a == 1) return true
+    return a == 1
     return false
 }
 
@@ -176,7 +171,6 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     for (i in m..n) {
         if (sqrt1(i + 0.0).toInt() * sqrt1(i + 0.0).toInt() == i) {
             return true
-            break
         }
     }
     return false
@@ -291,16 +285,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    var number = 0
-    var i = n
-    while (i > 0) {
-        number = number * 10 + i % 10
-        i /= 10
-    }
-    if (number == n) return true
-    return false
-}
+fun isPalindrome(n: Int): Boolean = (n == revert(n))
 
 /**
  * Средняя
@@ -318,7 +303,7 @@ fun hasDifferentDigits(n: Int): Boolean {
         number = number * 10 + 1
         i /= 10
     }
-    if (n % number == 0) return false
+    return (n % number != 0)
     return true
 }
 
