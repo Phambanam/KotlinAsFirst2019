@@ -157,7 +157,6 @@ fun isCoPrime(m: Int, n: Int): Boolean {
         }
     }
     return a == 1
-    return false
 }
 
 /**
@@ -304,7 +303,6 @@ fun hasDifferentDigits(n: Int): Boolean {
         i /= 10
     }
     return (n % number != 0)
-    return true
 }
 
 /**

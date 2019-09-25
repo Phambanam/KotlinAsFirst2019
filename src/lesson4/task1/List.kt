@@ -138,7 +138,7 @@ fun mean(list: List<Double>): Double = when {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val cp = mean(list)
+    val cp = list.sum()
     for (i in 0 until list.size) {
         list[i] -= cp / list.size
     }
@@ -444,12 +444,16 @@ fun russian(n: Int): String {
         "тысяч"
     )
     //
+
     if (k in 1..20) return arr[k - 1]
     // neu n co 2 chu so > 20
+
     if (count == 2 && k > 20) {
         s += arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
         return s
     }
+
+
     // Neu n co 3 chu so
     if (count == 3) {
         s += arr[(k / 100) + 26]
