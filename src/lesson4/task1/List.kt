@@ -168,11 +168,12 @@ fun times(a: List<Int>, b: List<Int>): Int {
 
 fun polynom(p: List<Int>, x: Int): Int {
     val k = mutableListOf<Int>()
-    if (p.isEmpty() || x == 0) return 0
+    if (p.isEmpty()) return 0
     for (i in 0 until p.size) {
         k.add(Math.pow(x.toDouble(), i.toDouble()).toInt())
     }
-    return times(p, k)
+    if (x != 0) return times(p, k)
+    return p[0]
 }
 
 /**
@@ -364,7 +365,7 @@ fun russian(n: Int): String {
         if (x / 1000 in 10..19) result += "${tenToTwenty[x / 1000 % 10]} " + "${thForm[2]} "
         if (x / 1000 > 19) {
             result += "${tens[x / 10000 - 2]} "
-            if (x % 10000 / 100 == 0) {
+            if (x / 1000 % 10== 0) {
                 result += "${thForm[2]} "
             }
         }

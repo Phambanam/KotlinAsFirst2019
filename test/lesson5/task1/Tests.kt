@@ -330,5 +330,4 @@ class Tests {
         )
     }
 
-    // TODO: map task tests
 }
