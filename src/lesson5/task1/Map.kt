@@ -95,40 +95,10 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val k = mutableMapOf<Int, List<String>>()
-    val a = mutableListOf<String>()
-    val b = mutableListOf<String>()
-    val c = mutableListOf<String>()
-    val d = mutableListOf<String>()
-    val e = mutableListOf<String>()
-
-    for (t in grades.keys) {
-        when (grades[t]) {
-            1 -> {
-                a.add(t)
-                k[1] = a
-            }
-            2 -> {
-                b.add(t)
-                k[2] = b
-            }
-            3 -> {
-                c.add(t)
-                k[3] = c
-            }
-            4 -> {
-                d.add(t)
-                k[4] = d
-            }
-            5 -> {
-                e.add(t)
-                k[5] = e
-            }
-        }
-    }
-
-    return k
-
+    var map = mutableMapOf<Int, MutableList<String>>()
+    for ((key, value) in grades)
+        map.getOrPut(value, ::mutableListOf).add(key)
+    return map
 }
 
 /**
@@ -164,11 +134,11 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMap<String, String> {
-
     val c = b.toMutableMap()
     for (i in b.keys) {
         if (a[i] == c[i]) c.remove(i)
     }
+    println(c)
     return c
 }
 
@@ -283,8 +253,10 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val k = mutableSetOf<Char>()
-    for (i in word) k.add(i)
-    return k.toList().all { it in chars }
+    val x = mutableListOf<Char>()
+    for (i in chars) x.add(i.toLowerCase())
+    for (i in word.toLowerCase()) k.add(i)
+    return k.toList().all { it in x }
 }
 
 /**
