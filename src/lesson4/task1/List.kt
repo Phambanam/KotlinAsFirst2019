@@ -4,7 +4,6 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
-import java.lang.Math.pow
 import kotlin.math.sqrt
 
 /**
@@ -154,11 +153,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Int>, b: List<Int>): Int {
     if (a.isEmpty() && b.isEmpty()) return 0
-    var c = 0
-    for (i: Int in 0 until a.size) {
-        c += a[i] * b[i]
-    }
-    return c
+    return a.mapIndexed { index, Int -> a[index] * b[index] }.sum()
 }
 
 /**
@@ -172,12 +167,12 @@ fun times(a: List<Int>, b: List<Int>): Int {
 
 
 fun polynom(p: List<Int>, x: Int): Int {
-    var t = 0
-    if (p.isEmpty()) return 0
+    val k = mutableListOf<Int>()
+    if (p.isEmpty() || x == 0) return 0
     for (i in 0 until p.size) {
-        t += p[i] * pow(x.toDouble(), i.toDouble()).toInt()
+        k.add(Math.pow(x.toDouble(), i.toDouble()).toInt())
     }
-    return t
+    return times(p, k)
 }
 
 /**
@@ -242,7 +237,6 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     var a = n
     val x = mutableListOf<Int>()
-    val r = mutableListOf<Int>()
     var count = 0
     if (a == 0) return listOf(0)
     while (a > 0) {
@@ -250,10 +244,7 @@ fun convert(n: Int, base: Int): List<Int> {
         a /= base
         count += 1
     }
-    for (j: Int in (x.size - 1) downTo 0) {
-        r.add(x[j])
-    }
-    return r
+    return x.reversed()
 }
 
 /**
@@ -268,23 +259,14 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-    var a = n
-    val x = mutableListOf<String>()
-    var r = ""
-    val y = mutableListOf("0")
-    //Tim cac phan tu cua list
-    if (n == 0) return y[0]
-    while (a > 0) {
-        x.add((a % base).toString())
-        a /= base
+    val x = convert(n, base).toMutableList()
+    val t = mutableListOf<String>()
+    for (i in x) {
+        if (i >= 10) t.add(('a' + (i - 10)).toString())
+        else
+            t.add(i.toString())
     }
-    for (j in (x.size - 1) downTo 0) {
-        if (x[j].toInt() >= 10) {
-            x[j] = ('a' + x[j].toInt() - 10).toString()
-        }
-        r = r.plus(x[j])
-    }
-    return r
+    return t.joinToString(separator = "")
 }
 
 /**
@@ -327,64 +309,22 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var m: Int = n
-    var s = ""
-    for (i: Int in 1..m / 1000) s += "M"
-    m = m % 1000
-    if (m >= 900) {
-        s += "CM"
-        m = m - 900
-    }
-    if (m >= 500) {
-        s += "D"
-        m -= 500
-    }
-    if (m >= 400) {
-        s += "CD"
-        m -= 400
-    }
-    if (m >= 100) {
-        for (i: Int in 1..m / 100) {
-            s += "C"
-        }
-        m %= 100
-    }
-    if (m >= 90) {
-        s += "XC"
-        m -= 90
-    }
-    if (m >= 50) {
-        s += "L"
-        m -= 50
-    }
-    if (m >= 40) {
-        s += "XL"
-        m -= 40
-    }
-    if (m >= 10) {
-        for (i: Int in 1..m / 10) {
-            s += "X"
-        }
-        m %= 10
-    }
-    if (m >= 9) {
-        s += "IX"
-        m -= 9
-    }
-    if (m >= 5) {
-        s += "V"
-        m -= 5
-    }
-    if (m >= 4) {
-        s += "IV"
-        m -= 4
-    }
-    if (m >= 1) {
-        for (i: Int in 1..m) {
-            s += "I"
+    var wN = n
+    val rom = mutableListOf<Pair<Int, String>>(
+        Pair(1000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"),
+        Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"), Pair(40, "XL"), Pair(10, "X"), Pair(9, "IX"),
+        Pair(5, "V"), Pair(4, "IV"), Pair(1, "I")
+    )
+    val res = StringBuilder()
+    while (rom.count() > 0) {
+        if (wN < rom[0].first)
+            rom.removeAt(0)
+        else {
+            wN -= rom[0].first
+            res.append(rom[0].second)
         }
     }
-    return s
+    return res.toString()
 }
 
 /**
@@ -394,139 +334,61 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var m = n
-    var k = n
-    var s = ""
-    var count = 0
-    while (m > 0) {
-        m /= 10
-        count++
-    }
-    val arr = mutableListOf(
-        "один",
-        "два",
-        "три",
-        "четыре",
-        "пять",
-        "шесть",
-        "семь",
-        "восемь",
-        "девять",
-        "десять",
-        "одиннадцать",
-        "двенадцать",
-        "тринадцать",
-        "четырнадцать",
-        "пятнадцать",
-        "шестнадцать",
-        "семнадцать",
-        "восемнадцать",
-        "девятнадцать",
-        "двадцать",
-        "тридцать",
-        "сорок",
-        "пятьдесят",
-        "шестьдесят",
-        "семьдесят",
-        "восемьдесят",
-        "девяносто",
-        "сто",
-        "двести",
-        "триста",
-        "четыреста",
-        "пятьсот",
-        "шестьсот",
-        "семьсот",
-        "восемьсот",
-        "девятьсот",
-        "тысяча",
-        "тысячи",
-        "тысяч"
+    val units = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val tens = listOf(
+        "двадцать", "тридцать", "сорок", "пятьдесят",
+        "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
     )
-    //
+    val tenToTwenty = listOf(
+        "десять", "одиннадцать", "двенадцать", "тринадцать",
+        "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+    )
+    val hundreds = listOf(
+        "сто", "двести", "триста", "четыреста",
+        "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"
+    )
+    val thNumber = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val thForm = listOf("тысяча", "тысячи", "тысяч")
 
-    if (k in 1..20) return arr[k - 1]
-    // neu n co 2 chu so > 20
-
-    if (count == 2 && k > 20) {
-        s += arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
-        return s
-    }
-
-
-    // Neu n co 3 chu so
-    if (count == 3) {
-        s += arr[(k / 100) + 26]
-        k = k % 100
-        if (k > 21 && k % 10 == 0) s += " " + arr[(k / 10) + 17]
-        if (k >= 21 && k % 10 > 0) s += " " + arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
-        if (k in 1..20) s += " " + arr[k - 1]
-        return s
-    }
-    // neu n co 4 chu so
-    if (count == 4) {
-        val q: Int = k / 1000
-        if (q == 1) s += arr[36]
-        if (q == 2) s += "две" + " " + arr[37]
-        if (q == 3 || q == 4) s += arr[q - 1] + " " + arr[37]
-        if (q > 4) s += arr[q - 1] + " " + arr[38]
-        k %= 1000
-        if (k >= 100) s += " " + arr[(k / 100) + 26]
-        k %= 100
-        if (k > 21 && k % 10 == 0) s += " " + arr[(k / 10) + 17]
-        if (k >= 21 && k % 10 > 0) s += " " + arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
-        if (k in 1..20) s += " " + arr[k - 1]
-        return s
-
-    }
-    // neu n co 5 chu so
-    if (count == 5) {
-        val q: Int = k / 1000
-        if ((q % 10 == 1 && q > 11)) s += arr[(q / 10) + 17] + " " + "одна" + " " + arr[36]
-        if (q % 10 == 0) s += arr[(q / 10) + 17] + " " + arr[38]
-        if (q % 10 > 2 && q % 10 <= 4 && q > 20) s += arr[(q / 10) + 17] + " " + arr[q % 10 - 1] + " " + arr[37]
-        if (q % 10 == 2 && q > 20) s += arr[(q / 10) + 17] + " " + "две" + " " + arr[37]
-        if (q in 10..20) s += arr[q - 1] + " " + arr[38]
-        if (q > 20 && q % 10 > 4) s += arr[(q / 10) + 17] + " " + arr[q % 10 - 1] + " " + arr[38]
-        k %= 1000
-        if (k >= 100) s += " " + arr[(k / 100) + 26]
-        k %= 100
-        k %= 100
-        if (k > 21 && k % 10 == 0) s += " " + arr[(k / 10) + 17]
-        if (k >= 21 && k % 10 > 0) s += " " + arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
-        if (k in 1..20) s += " " + arr[k - 1]
-        return s
-
-    }
-    // voi n co 6 chu so
-    if (count == 6) {
-        val q: Int
-        val p: Int = k / 1000
-        if (p % 100 == 0) s += arr[(p / 100) + 26] + " " + arr[38]
-        else s += arr[(p / 100) + 26]
-        q = p % 100
-
-        if (q == 1) s += " " + "одна" + " " + arr[36]
-        if (q / 10 == 0) {
-            if (q % 10 == 2) s += " " + "две" + " " + arr[37]
-            if (q % 10 in 3..4) s += " " + arr[q - 1] + " " + arr[37]
-            if (q % 10 > 4) s += " " + arr[q - 1] + " " + arr[38]
-
+    var x = n
+    var result = ""
+    if (x > 99999) {
+        result += "${hundreds[x / 100000 - 1]} "
+        if (x % 100000 / 1000 == 0) {
+            result += "${thForm[2]} "
         }
-        if (q % 10 == 1 && q > 11) s += " " + arr[(q / 10) + 17] + " " + "одна" + " " + arr[36]
-        if (q % 10 in 3..4 && q > 20) s += " " + arr[(q / 10) + 17] + " " + arr[q % 10 - 1] + " " + arr[37]
-        if (q % 10 == 2 && q > 20) s += " " + arr[(q / 10) + 17] + " " + "две" + " " + arr[37]
-        if (q in 10..20) s += " " + arr[q - 1] + " " + arr[38]
-        if (q > 20 && q % 10 == 0) s += " " + arr[(q / 10) + 17] + " " + arr[38]
-        if (q > 20 && q % 10 > 4) s += " " + arr[(q / 10) + 17] + " " + arr[q % 10 - 1] + " " + arr[38]
-        k %= 1000
-        if (k >= 100) s += " " + arr[(k / 100) + 26]
-        k %= 100
-        if (k > 21 && k % 10 == 0) s += " " + arr[(k / 10) + 17]
-        if (k >= 21 && k % 10 > 0) s += " " + arr[(k / 10) + 17] + " " + arr[k % 10 - 1]
-        if (k in 1..20) s += " " + arr[k - 1]
-        return s
-
+        x %= 100000
     }
-    return s
+
+    if (x > 9999) {
+        if (x / 1000 in 10..19) result += "${tenToTwenty[x / 1000 % 10]} " + "${thForm[2]} "
+        if (x / 1000 > 19) {
+            result += "${tens[x / 10000 - 2]} "
+            if (x % 10000 / 100 == 0) {
+                result += "${thForm[2]} "
+            }
+        }
+        if (x / 1000 in 10..19) x %= 1000
+        x %= 10000
+    }
+    if (x > 999) {
+        result += "${thNumber[x / 1000 - 1]} "
+        if (x / 1000 == 1) result += "${thForm[0]} "
+        if (x / 1000 in 2..4) result += "${thForm[1]} "
+        if (x / 1000 in 5..9) result += "${thForm[2]} "
+        x %= 1000
+    }
+    if (x > 99) {
+        result += "${hundreds[x / 100 - 1]} "
+        x %= 100
+    }
+    if (x in 10..19) result += "${tenToTwenty[x - 10]}"
+    if (x > 19) {
+        result += "${tens[x / 10 - 2]} "
+        x %= 10
+    }
+    if (x in 1..9) result += "${units[x - 1]}"
+    return result.trim()
 }
+
+
