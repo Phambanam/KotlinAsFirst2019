@@ -3,7 +3,6 @@
 package lesson3.task1
 
 import java.lang.Math.*
-import kotlin.Double as Double1
 import kotlin.math.sqrt as sqrt1
 
 /**
@@ -11,7 +10,7 @@ import kotlin.math.sqrt as sqrt1
  *
  * Вычисление факториала
  */
-fun factorial(n: Int): Double1 {
+fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
         result = result * i // Please do not fix in master
@@ -219,7 +218,7 @@ fun collatzSteps(x: Int): Int {
  */
 
 
-fun sin(x: Double1, eps: Double1): Double1 {
+fun sin(x: Double, eps: Double): Double {
     var a = x
     var n = 2
 
@@ -243,7 +242,7 @@ fun sin(x: Double1, eps: Double1): Double1 {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double1, eps: Double1): Double1 {
+fun cos(x: Double, eps: Double): Double {
     var a = x
     var b = 1.0
     var n = 1
