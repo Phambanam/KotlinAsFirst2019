@@ -68,7 +68,9 @@ fun main() {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку.
  *
- * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
+ * Обратите внимание: некорректная с точки зрен
+ *
+ * ия календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
@@ -90,7 +92,7 @@ fun dateStrToDigit(str: String): String {
     }
     when (date[1].toInt()) {
         1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
-        2 -> if (date[0].toInt() != daysInMonth(2, date[2].toInt())) return ""
+        2 -> if (date[0].toInt() > daysInMonth(2, date[2].toInt())) return ""
         4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
     }
     return date.joinToString(".")
