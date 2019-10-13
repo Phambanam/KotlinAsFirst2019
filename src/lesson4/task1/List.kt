@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -151,10 +152,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int {
-    if (a.isEmpty() && b.isEmpty()) return 0
-    return a.mapIndexed { index, Int -> a[index] * b[index] }.sum()
-}
+fun times(a: List<Int>, b: List<Int>): Int = a.mapIndexed { index, Int -> a[index] * b[index] }.sum()
+
 
 /**
  * Средняя
@@ -166,15 +165,7 @@ fun times(a: List<Int>, b: List<Int>): Int {
  */
 
 
-fun polynom(p: List<Int>, x: Int): Int {
-    val k = mutableListOf<Int>()
-    if (p.isEmpty()) return 0
-    for (i in 0 until p.size) {
-        k.add(Math.pow(x.toDouble(), i.toDouble()).toInt())
-    }
-    if (x != 0) return times(p, k)
-    return p[0]
-}
+fun polynom(p: List<Int>, x: Int): Int = p.mapIndexed { index, i -> i* (x.toDouble().pow(index)).toInt() }.sum()
 
 /**
  * Средняя
@@ -259,16 +250,12 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String {
-    val x = convert(n, base).toMutableList()
-    val t = mutableListOf<String>()
-    for (i in x) {
-        if (i >= 10) t.add(('a' + (i - 10)).toString())
-        else
-            t.add(i.toString())
+fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "") {
+        if(it > 9) {
+            return@joinToString ('a'+it-10).toString()
+        }
+        it.toString()
     }
-    return t.joinToString(separator = "")
-}
 
 /**
  * Средняя
@@ -311,7 +298,7 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 fun roman(n: Int): String {
     var wN = n
-    val rom = mutableListOf<Pair<Int, String>>(
+    val rom = mutableListOf(
         Pair(1000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"),
         Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"), Pair(40, "XL"), Pair(10, "X"), Pair(9, "IX"),
         Pair(5, "V"), Pair(4, "IV"), Pair(1, "I")
@@ -365,7 +352,7 @@ fun russian(n: Int): String {
         if (x / 1000 in 10..19) result += "${tenToTwenty[x / 1000 % 10]} " + "${thForm[2]} "
         if (x / 1000 > 19) {
             result += "${tens[x / 10000 - 2]} "
-            if (x / 1000 % 10== 0) {
+            if (x / 1000 % 10 == 0) {
                 result += "${thForm[2]} "
             }
         }

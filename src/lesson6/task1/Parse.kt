@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -69,7 +71,30 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val month = listOf(
+        "января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    val date = str.split(" ").toMutableList()
+    if (date.size != 3) return ""
+    if (!month.contains(date[1]))
+        return ""
+    if (date[0].length == 1) date[0] = "0" + date[0]
+    for (i in 0 until month.size) if (month[i] == date[1]) {
+        val a = i + 1
+        if (i in 0..8) {
+            date[1] = "0$a"
+        } else date[1] = "$a"
+        break
+    }
+    when (date[1].toInt()) {
+        1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
+        2 -> if (date[0].toInt() != daysInMonth(2, date[2].toInt())) return ""
+        4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
+    }
+    return date.joinToString(".")
+}
 
 /**
  * Средняя
@@ -81,7 +106,33 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val month = listOf(
+        "января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    var a: String
+    val date = digital.split(".").toMutableList()
+    val s = digital.toMutableList()
+    for (i in s) if (i in 'a'..'z') return ""
+    if (date[0].toInt() !in 1..31) return ""
+    if (date[1].toInt() !in 1..12) return ""
+    if (date[2].toInt() < 0) return ""
+    if (date.size != 3) return ""
+    when (date[1].toInt()) {
+        1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
+        2 -> if (date[0].toInt() > daysInMonth(2, date[2].toInt())) return ""
+        4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
+    }
+    if (date[0].length == 1) date[0] = "0" + date[0]
+    for (i in 1..month.size) {
+        if (i.toString().length == 1) a = "0" + i.toString() else a = i.toString()
+        if (a == date[1]) date[1] = month[a.toInt() - 1]
+    }
+    if (date[0].length == 2 && date[0].toInt() < 10) return date.joinToString(" ").substring(1)
+    return date.joinToString(" ")
+
+}
 
 /**
  * Средняя
@@ -97,7 +148,20 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val k = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "(", ")", "+", "-", " ")
+    val p = phone.trim().split("").toMutableList()
+    for (i in 1..p.size - 2) {
+        if ((p[i] == "(" && p[i + 1] == ")") || (!k.contains(p[i]))) return ""
+    }
+    while (p.contains("(") || p.contains(")") || p.contains(" ") || p.contains("-")) {
+        p.remove("(")
+        p.remove(")")
+        p.remove(" ")
+        p.remove("-")
+    }
+    return p.joinToString("").trim()
+}
 
 /**
  * Средняя
@@ -109,7 +173,23 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int? {
+    val a = jumps.split(" ").toMutableList()
+    val k = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", " ", "%")
+    while (a.contains(" ") || a.contains("-")||a.contains("%")) {
+        a.remove(" ")
+        a.remove("-")
+        a.remove("%")
+    }
+    println(a)
+    val b = a.joinToString("")
+    println(b)
+    for (i in b) if (!k.contains(i.toString())) return -1
+    val c = mutableListOf<Int>()
+    for (i in a) c.add(i.toInt())
+    if (c.max() == null ) return -1
+    return c.max()
+}
 
 /**
  * Сложная
