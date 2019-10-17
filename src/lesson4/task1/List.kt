@@ -165,7 +165,7 @@ fun times(a: List<Int>, b: List<Int>): Int = a.mapIndexed { index, Int -> a[inde
  */
 
 
-fun polynom(p: List<Int>, x: Int): Int = p.mapIndexed { index, i -> i* (x.toDouble().pow(index)).toInt() }.sum()
+fun polynom(p: List<Int>, x: Int): Int = p.mapIndexed { index, i -> i * (x.toDouble().pow(index)).toInt() }.sum()
 
 /**
  * Средняя
@@ -251,11 +251,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "") {
-        if(it > 9) {
-            return@joinToString ('a'+it-10).toString()
-        }
-        it.toString()
+    if (it > 9) {
+        return@joinToString "${'a' + it - 10}"
     }
+    it.toString()
+}
 
 /**
  * Средняя
