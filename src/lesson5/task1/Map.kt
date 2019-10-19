@@ -187,16 +187,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double>
-//= stockPrices.groupBy { it.first }.mapValues { mean(it.value.map { it.second }) }
-{
-    val t = stockPrices.groupBy({ it.first }, { it.second })
-    val a = mutableMapOf<String, Double>()
-    t.forEach {
-        a[it.key] = (mean(it.value))
-    }
-    println(stockPrices.groupBy { it.first }.mapValues { it.value.map { it.second } })
-    return a
-}
+= stockPrices.groupBy { it.first }.mapValues { mean(it.value.map { it.second }) }
 
 /**
  * Средняя
