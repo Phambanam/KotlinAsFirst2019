@@ -205,7 +205,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? =
-    stuff.filterValues { it.first == kind }.minBy { it.value.first }?.key
+    stuff.filterValues { it.first == kind }.minBy { it.value.second }?.key
 
 /**
  * Средняя
@@ -275,9 +275,9 @@ fun hasAnagrams(words: List<String>): Boolean = words.size != words.map { it.toL
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
     val a = friends as MutableMap<String, MutableSet<String>>
     for (i in a.keys)
-        for(j in a[i]!!)
-            if(j!=i)
-                for(k in a[j]!!)
+        for (j in a[i]!!)
+            if (j != i)
+                for (k in a[j]!!)
                     a[i]!!.add(k)
     println(a)
     return a
