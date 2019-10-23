@@ -1,7 +1,6 @@
 @file:Suppress("UNU SED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson5.task1
-
 import lesson4.task1.mean
 
 
@@ -273,14 +272,22 @@ fun hasAnagrams(words: List<String>): Boolean = words.size != words.map { it.toL
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val a = friends as MutableMap<String, MutableSet<String>>
-    for (i in a.keys)
-        for (j in a[i]!!)
-            if (j != i)
-                for (k in a[j]!!)
-                    a[i]!!.add(k)
-    println(a)
-    return a
+    val b = mutableMapOf<String, MutableSet<String>>()
+    val c = mutableSetOf<String>()
+    for (j in friends.values) c += j
+    for ((i, j) in friends)
+        for (k in j) {
+            b.getOrPut(i, ::mutableSetOf).add(k)
+            friends[k]?.let { b[i]?.plusAssign(it) }
+        }
+    for (i in c)
+        if (!b.keys.contains(i)) b.getOrPut(i, ::mutableSetOf).add("")
+    for ((i, j) in b) {
+        val k = j.sorted().toMutableSet()
+        if (k.contains(i)) k.remove(i)
+        b[i] = k
+    }
+    return b
 }
 
 /**
