@@ -178,6 +178,7 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int? {
     val a = jumps.split(" ").toMutableList()
     val k = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", " ", "%")
+    if (jumps != null) return -1
     while (a.contains(" ") || a.contains("-")||a.contains("%")) {
         a.remove(" ")
         a.remove("-")

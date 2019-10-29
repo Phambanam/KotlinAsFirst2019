@@ -1,6 +1,7 @@
 @file:Suppress("UNU SED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson5.task1
+
 import lesson4.task1.mean
 
 
@@ -281,14 +282,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
             friends[k]?.let { b[i]?.plusAssign(it) }
         }
     for (i in c)
-        if (!b.keys.contains(i)) b.getOrPut(i, ::mutableSetOf).add("")
+        if (!b.keys.contains(i)) b.getOrPut(i) { mutableSetOf() }
     for ((i, j) in b) {
-        val k = j.sorted().toMutableSet()
-        if (k.contains(i)) k.remove(i)
-        b[i] = k
+        if (j.contains(i)) j.remove(i)
+        b[i] = j
     }
     return b
 }
+
 
 /**
  * Сложная
@@ -315,25 +316,25 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     return Pair(-1, -1)
 }
 
-/**
- * Очень сложная
- *
- * Входными данными является ассоциативный массив
- * "название сокровища"-"пара (вес сокровища, цена сокровища)"
- * и вместимость вашего рюкзака.
- * Необходимо вернуть множество сокровищ с максимальной суммарной стоимостью,
- * которые вы можете унести в рюкзаке.
- *
- * Перед решением этой задачи лучше прочитать статью Википедии "Динамическое программирование".
- *
- * Например:
- *   bagPacking(
- *     mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
- *     850
- *   ) -> setOf("Кубок")
- *   bagPacking(
- *     mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
- *     450
- *   ) -> emptySet()
- */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+///**
+// * Очень сложная
+// *
+// * Входными данными является ассоциативный массив
+// * "название сокровища"-"пара (вес сокровища, цена сокровища)"
+// * и вместимость вашего рюкзака.
+// * Необходимо вернуть множество сокровищ с максимальной суммарной стоимостью,
+// * которые вы можете унести в рюкзаке.
+// *
+// * Перед решением этой задачи лучше прочитать статью Википедии "Динамическое программирование".
+// *
+// * Например:
+// *   bagPacking(
+// *     mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
+// *     850
+// *   ) -> setOf("Кубок")
+// *   bagPacking(
+// *     mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
+// *     450
+// *   ) -> emptySet()
+// */
+//fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()

@@ -117,7 +117,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
+fun abs(v: List<Double>): Double =
+    sqrt(v.fold(0.0, { total: Double, i: Double -> total + i * i }))
+// Math.sqrt(v.map { it * it }.sum())
 
 /**
  * Простая
@@ -229,12 +231,10 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     var a = n
     val x = mutableListOf<Int>()
-    var count = 0
     if (a == 0) return listOf(0)
     while (a > 0) {
         x.add(a % base)
         a /= base
-        count += 1
     }
     return x.reversed()
 }
@@ -250,12 +250,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "") {
-    if (it > 9) {
-        return@joinToString "${'a' + it - 10}"
-    }
-    it.toString()
-}
+fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "") { if (it > 9) { "${'a' + it - 10}" } else it.toString() }
 
 /**
  * Средняя
@@ -265,7 +260,6 @@ fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(s
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int = polynom(digits.map { it }.reversed(), base)
-
 /**
  * Сложная
  *
