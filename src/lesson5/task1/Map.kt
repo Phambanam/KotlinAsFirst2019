@@ -283,13 +283,16 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
         }
     for (i in c)
         if (!b.keys.contains(i)) b.getOrPut(i) { mutableSetOf() }
+    for ((i,j) in b) {
+        if (j.isEmpty()) {
+            b.getOrPut(i) { mutableSetOf() }
+            for(k in b.values) k.add(i)
+        }
+    }
     for ((i, j) in b) {
         if (j.contains(i)) j.remove(i)
         b[i] = j
     }
-    for ((i,j) in friends)
-        if (j.isEmpty()) b.getOrPut(i) { mutableSetOf() }
-            println(b)
     return b
 }
 
