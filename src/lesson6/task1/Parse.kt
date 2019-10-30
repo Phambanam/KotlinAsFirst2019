@@ -150,19 +150,19 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String {
-    val k = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "(", ")", "+", "-", " ")
-    val p = phone.trim().split("").toMutableList()
-    for (i in 1..p.size - 2) {
-        if ((p[i] == "(" && p[i + 1] == ")") || (!k.contains(p[i]))) return ""
+fun flattenPhoneNumber(phone: String):String {
+    val p = phone.split(" ", ")", "-", "(").filter { it != "" }
+    for(i in 0 until  phone.length) if (phone[i].toString()=="(" && phone[i+1].toString()==")") return ""
+    return try {
+        var result = ""
+        for (part in p) {
+            if (part.toInt() >= 0)
+                result = result + part
+        }
+        result
+    } catch (e: NumberFormatException) {
+        return ""
     }
-    while (p.contains("(") || p.contains(")") || p.contains(" ") || p.contains("-")) {
-        p.remove("(")
-        p.remove(")")
-        p.remove(" ")
-        p.remove("-")
-    }
-    return p.joinToString("").trim()
 }
 
 /**
