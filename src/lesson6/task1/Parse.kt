@@ -131,7 +131,7 @@ fun dateDigitToStr(digital: String): String {
         val year = date[2].toInt()
         if (date[1].toInt() !in 1..12) return ""
         val mont = month[date[1].toInt() - 1]
-        if (day <= 0 || date[1].toInt() <= 0 || year <= 0) return ""
+        if (day <= 0 || date[1].toInt() <= 0 || year < 0) return ""
         if (day in 1..daysInMonth(date[1].toInt(), year)) return String.format("%d %s %d", day, mont, year)
         return ""
     } catch (e: NumberFormatException) {
@@ -174,7 +174,11 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String):String {
     val p = phone.split(" ", ")", "-", "(").filter { it != "" }
-    for(i in 0 until  phone.length) if (phone[i].toString()=="(" && phone[i+1].toString()==")") return ""
+    try {
+        for (i in 0 until phone.length) if (phone[i].toString() == "(" && phone[i + 1].toString() == ")") return ""
+    } catch (e: StringIndexOutOfBoundsException) {
+        return ""
+    }
     return try {
         var result = ""
         for (part in p) {
