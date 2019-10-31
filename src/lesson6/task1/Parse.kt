@@ -78,24 +78,35 @@ fun dateStrToDigit(str: String): String {
         "января", "февраля", "марта", "апреля", "мая", "июня",
         "июля", "августа", "сентября", "октября", "ноября", "декабря"
     )
-    val date = str.split(" ").toMutableList()
+    val date = str.split(" ")
     if (date.size != 3) return ""
-    if (!month.contains(date[1]))
+    return try {
+        val day = date[0].toInt()
+        val year = date[2].toInt()
+        val mont = month.indexOf(date[1]) + 1
+        if (mont <= 0) return ""
+        if (day in 1..daysInMonth(mont, year)) return String.format("%02d.%02d.%d", day, mont, year)
         return ""
-    if (date[0].length == 1) date[0] = "0" + date[0]
-    for (i in 0 until month.size) if (month[i] == date[1]) {
-        val a = i + 1
-        if (i in 0..8) {
-            date[1] = "0$a"
-        } else date[1] = "$a"
-        break
+    } catch (e: NumberFormatException) {
+        return ""
     }
-    when (date[1].toInt()) {
-        1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
-        2 -> if (date[0].toInt() > daysInMonth(2, date[2].toInt())) return ""
-        4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
-    }
-    return date.joinToString(".")
+//    if (date.size != 3) return ""
+//    if (!month.contains(date[1]))
+//        return ""
+//    if (date[0].length == 1) date[0] = "0" + date[0]
+//    for (i in 0 until month.size) if (month[i] == date[1]) {
+//        val a = i + 1
+//        if (i in 0..8) {
+//            date[1] = "0$a"
+//        } else date[1] = "$a"
+//        break
+//    }
+//    when (date[1].toInt()) {
+//        1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
+//        2 -> if (date[0].toInt() > daysInMonth(2, date[2].toInt())) return ""
+//        4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
+//    }
+//    return date.joinToString(".")
 }
 
 /**
@@ -113,26 +124,37 @@ fun dateDigitToStr(digital: String): String {
         "января", "февраля", "марта", "апреля", "мая", "июня",
         "июля", "августа", "сентября", "октября", "ноября", "декабря"
     )
-    var a: String
     val date = digital.split(".").toMutableList()
-    val s = digital.toMutableList()
-    for (i in s) if (i in 'a'..'z') return ""
-    if (date[0].toInt() !in 1..31) return ""
-    if (date[1].toInt() !in 1..12) return ""
-    if (date[2].toInt() < 0) return ""
     if (date.size != 3) return ""
-    when (date[1].toInt()) {
-        1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
-        2 -> if (date[0].toInt() > daysInMonth(2, date[2].toInt())) return ""
-        4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
+    return try {
+        val day = date[0].toInt()
+        val year = date[2].toInt()
+        if (date[1].toInt() !in 1..12) return ""
+        val mont = month[date[1].toInt() - 1]
+        if (day <= 0 || date[1].toInt() <= 0 || year <= 0) return ""
+        if (day in 1..daysInMonth(date[1].toInt(), year)) return String.format("%d %s %d", day, mont, year)
+        return ""
+    } catch (e: NumberFormatException) {
+        return ""
     }
-    if (date[0].length == 1) date[0] = "0" + date[0]
-    for (i in 1..month.size) {
-        if (i.toString().length == 1) a = "0" + i.toString() else a = i.toString()
-        if (a == date[1]) date[1] = month[a.toInt() - 1]
-    }
-    if (date[0].length == 2 && date[0].toInt() < 10) return date.joinToString(" ").substring(1)
-    return date.joinToString(" ")
+//    val s = digital.toMutableList()
+//    for (i in s) if (i in 'a'..'z') return ""
+//    if (date[0].toInt() !in 1..31) return ""
+//    if (date[1].toInt() !in 1..12) return ""
+//    if (date[2].toInt() < 0) return ""
+//    if (date.size != 3) return ""
+//    when (date[1].toInt()) {
+//        1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
+//        2 -> if (date[0].toInt() > daysInMonth(2, date[2].toInt())) return ""
+//        4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
+//    }
+//    if (date[0].length == 1) date[0] = "0" + date[0]
+//    for (i in 1..month.size) {
+//        if (i.toString().length == 1) a = "0" + i.toString() else a = i.toString()
+//        if (a == date[1]) date[1] = month[a.toInt() - 1]
+//    }
+//    if (date[0].length == 2 && date[0].toInt() < 10) return date.joinToString(" ").substring(1)
+//    return date.joinToString(" ")
 
 }
 
@@ -175,7 +197,14 @@ fun flattenPhoneNumber(phone: String):String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int? = TODO()
+fun bestLongJump(jumps: String): Int? {
+    val jumpsA = jumps.split(" ", "%", "-").filter { it != "" && it != " " }
+    try {
+        return jumpsA.map { it.toInt() }.max() ?: -1
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 /**
  * Сложная
  *
@@ -187,7 +216,19 @@ fun bestLongJump(jumps: String): Int? = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val jumpsA = jumps.split(" ", "%", "-").filter { it != "" && it != " " }
+    if (jumpsA.isEmpty()) return -1
+    var b = 0
+    try {
+        jumpsA.all { it == "+" || it.toInt() % 1 == 0 }
+        for (i in 0 until jumpsA.size)
+            if (jumpsA[i] == "+" && jumpsA[i - 1].toInt() > b) b = jumpsA[i - 1].toInt()
+        return b
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -199,6 +240,21 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
+//    var a = expression.split(" ").filter { it!= "" && it != " "}.toMutableList()
+//    var s = 0
+//    try {
+//        a.all { it == "+" || it.toInt() % 1 == 0 || it == "-" }
+//        for(i in 0 until  a.size) {
+//            if(a[i]=="+") a.removeAt(i)
+//            if (a[i]=="-") {
+//                a[i+1].toInt() = -a[i+1].toInt()
+//            }
+//        }
+//        for (i in a) s+=i.toInt()
+//        return s
+//    } catch (e: Exception) {
+//        return -1
+//}}
 
 /**
  * Сложная
@@ -268,7 +324,7 @@ fun fromRoman(roman: String): Int = TODO()
  * То же исключение формируется, если у символов [ ] не оказывается пары.
  * Выход за границу конвейера также следует считать ошибкой и формировать исключение IllegalStateException.
  * Считать, что ошибочные символы и непарные скобки являются более приоритетной ошибкой чем выход за границу ленты,
- * то есть если в программе присутствует некорректный символ или непарная скобка, то должно быть выброшено
+ * то есть если в программе присутствует некорректный символ или непарная скобка, то должн1о быть выброшено
  * IllegalArgumentException.
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
