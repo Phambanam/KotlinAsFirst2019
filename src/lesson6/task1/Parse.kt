@@ -133,29 +133,10 @@ fun dateDigitToStr(digital: String): String {
         val mont = month[date[1].toInt() - 1]
         if (day <= 0 || date[1].toInt() <= 0 || year < 0) return ""
         if (day in 1..daysInMonth(date[1].toInt(), year)) return String.format("%d %s %d", day, mont, year)
-        return ""
+        ""
     } catch (e: NumberFormatException) {
-        return ""
+        ""
     }
-//    val s = digital.toMutableList()
-//    for (i in s) if (i in 'a'..'z') return ""
-//    if (date[0].toInt() !in 1..31) return ""
-//    if (date[1].toInt() !in 1..12) return ""
-//    if (date[2].toInt() < 0) return ""
-//    if (date.size != 3) return ""
-//    when (date[1].toInt()) {
-//        1, 3, 5, 7, 8, 10, 12 -> if (date[0].toInt() > 31) return ""
-//        2 -> if (date[0].toInt() > daysInMonth(2, date[2].toInt())) return ""
-//        4, 6, 9, 11 -> if (date[0].toInt() > 30) return ""
-//    }
-//    if (date[0].length == 1) date[0] = "0" + date[0]
-//    for (i in 1..month.size) {
-//        if (i.toString().length == 1) a = "0" + i.toString() else a = i.toString()
-//        if (a == date[1]) date[1] = month[a.toInt() - 1]
-//    }
-//    if (date[0].length == 2 && date[0].toInt() < 10) return date.joinToString(" ").substring(1)
-//    return date.joinToString(" ")
-
 }
 
 /**
@@ -172,20 +153,15 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String):String {
-    val p = phone.split(" ", ")", "-", "(").filter { it != "" }
+fun flattenPhoneNumber(phone: String): String {
+    val p = phone.split(" ", ")", "-", "(").filter { it != "" }.toMutableList()
     try {
         for (i in 0 until phone.length) if (phone[i].toString() == "(" && phone[i + 1].toString() == ")") return ""
     } catch (e: StringIndexOutOfBoundsException) {
         return ""
     }
     return try {
-        var result = ""
-        for (part in p) {
-            if (part.toInt() >= 0)
-                result = result + part
-        }
-        result
+        p.filter { it.toInt() >= 0 }.joinToString("")
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -203,12 +179,13 @@ fun flattenPhoneNumber(phone: String):String {
  */
 fun bestLongJump(jumps: String): Int? {
     val jumpsA = jumps.split(" ", "%", "-").filter { it != "" && it != " " }
-    try {
-        return jumpsA.map { it.toInt() }.max() ?: -1
+    return try {
+        jumpsA.map { it.toInt() }.max() ?: -1
     } catch (e: NumberFormatException) {
         return -1
     }
 }
+
 /**
  * Сложная
  *
@@ -224,11 +201,11 @@ fun bestHighJump(jumps: String): Int {
     val jumpsA = jumps.split(" ", "%", "-").filter { it != "" && it != " " }
     if (jumpsA.isEmpty()) return -1
     var b = 0
-    try {
+    return try {
         jumpsA.all { it == "+" || it.toInt() % 1 == 0 }
         for (i in 0 until jumpsA.size)
             if (jumpsA[i] == "+" && jumpsA[i - 1].toInt() > b) b = jumpsA[i - 1].toInt()
-        return b
+        b
     } catch (e: NumberFormatException) {
         return -1
     }
@@ -243,22 +220,23 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
-//    var a = expression.split(" ").filter { it!= "" && it != " "}.toMutableList()
-//    var s = 0
-//    try {
-//        a.all { it == "+" || it.toInt() % 1 == 0 || it == "-" }
-//        for(i in 0 until  a.size) {
-//            if(a[i]=="+") a.removeAt(i)
-//            if (a[i]=="-") {
-//                a[i+1].toInt() = -a[i+1].toInt()
-//            }
-//        }
-//        for (i in a) s+=i.toInt()
-//        return s
-//    } catch (e: Exception) {
-//        return -1
-//}}
+fun plusMinus(expression: String): Int {
+    val a = expression.split(" ")
+    require(a.size % 2 != 0)
+    try {
+        var result = a[0].toInt()
+        for (i in 1 until a.size - 1 step 2) {
+            when (a[i]) {
+                "+" -> result += a[i + 1].toInt()
+                "-" -> result -= a[i + 1].toInt()
+                else -> throw IllegalArgumentException()
+            }
+        }
+        return result
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Сложная
@@ -269,7 +247,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val a = str.toLowerCase().split(" ")
+    try {
+        var count = 0
+        for (i in a.indices) {
+            if (a[i] == a[i + 1]) return count
+            count += a[i].length + 1
+        }
+        return -1
+    } catch (e: Exception) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -282,7 +272,27 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val a = description.split(";")
+    try {
+        var max = 0.0
+        var str = ""
+        for (i in a) {
+            val k = i.split(" ").toMutableList()
+            if (k.size != 2 && k[0] != "") return ""
+            val b = k.filter { it != "" }
+            val j = b[1].split(".")
+            val n = j[0].toDouble() + j[1].toDouble() / (Math.pow(10.0, j[1].length.toDouble()))
+            if (n > max) {
+                max = n
+                str = b[0]
+            }
+        }
+        return str
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -295,7 +305,27 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val rom = mutableListOf(
+        Pair(1000, "M"), Pair(500, "D"),
+        Pair(100, "C"), Pair(50, "L"), Pair(10, "X"),
+        Pair(5, "V"), Pair(1, "I")
+    )
+    val a = roman.split("").filter { it != "" }.toMutableList()
+    try {
+        for (j in rom)
+            for (i in 0 until a.size)
+                if (a[i] == j.second) a[i] = j.first.toString()
+        if(a.size == 1) return a[0].toInt()
+        var result = a[0].toInt()
+        for (i in 0 until a.size - 1)
+            if (a[i].toInt() >= a[i + 1].toInt()) result +=a[i + 1].toInt()
+            else result += a[i+1].toInt() - 2*a[i].toInt()
+        return result
+    } catch (e: Exception) {
+        return -1
+    }
+}
 
 /**
  * Очень сложная
