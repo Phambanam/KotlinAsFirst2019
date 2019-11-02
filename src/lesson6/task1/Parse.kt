@@ -222,18 +222,16 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val a = expression.split(" ")
-    require(a.size % 2 != 0)
     try {
         var result = a[0].toInt()
         for (i in 1 until a.size - 1 step 2) {
             when (a[i]) {
                 "+" -> result += a[i + 1].toInt()
                 "-" -> result -= a[i + 1].toInt()
-                else -> throw IllegalArgumentException()
             }
         }
         return result
-    } catch (e: NumberFormatException) {
+    } catch (e: Exception) {
         throw IllegalArgumentException()
     }
 }
@@ -283,7 +281,7 @@ fun mostExpensive(description: String): String {
             val b = k.filter { it != "" }
             val j = b[1].split(".")
             val n = j[0].toDouble() + j[1].toDouble() / (Math.pow(10.0, j[1].length.toDouble()))
-            if (n > max) {
+            if (n >= max) {
                 max = n
                 str = b[0]
             }
