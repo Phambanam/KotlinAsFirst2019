@@ -94,12 +94,15 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val map = mutableMapOf<Int, MutableList<String>>()
-    for ((key, value) in grades)
-        map.getOrPut(value, ::mutableListOf).add(key)
-    return map
-}
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> =
+    grades.keys.groupBy { grades[it] ?: 0 }
+//    {
+//    val map = mutableMapOf<Int, MutableList<String>>()
+//    for ((key, value) in grades)
+//        map.getOrPut(value, ::mutableListOf).add(key)
+//    println(grades.keys.groupBy { grades[it] ?: 0 })
+//    return map
+//}
 
 /**
  * Простая
@@ -163,7 +166,8 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String>
+{
     val mapC = mutableMapOf<String, String>()
     for (i in mapA.keys) {
         if (mapA[i] != mapB[i] && mapB.contains(i)) {
@@ -172,7 +176,6 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
     }
     for (i in mapB.keys) if (!mapA.contains(i)) mapC[i] = "${mapB[i]}"
     return mapC.toMap()
-
 }
 
 /**
