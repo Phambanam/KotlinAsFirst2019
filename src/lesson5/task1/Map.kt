@@ -166,8 +166,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String>
-{
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val mapC = mutableMapOf<String, String>()
     for (i in mapA.keys) {
         if (mapA[i] != mapB[i] && mapB.contains(i)) {
@@ -276,25 +275,33 @@ fun hasAnagrams(words: List<String>): Boolean = words.size != words.map { it.toL
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val b = mutableMapOf<String, MutableSet<String>>()
-    val c = mutableSetOf<String>()
-    if(friends.values.all { it.isEmpty() }) return friends
-    for (j in friends.values) c += j
+    val n = mutableSetOf<String>()
+    val t = mutableMapOf<String, Int>()
+    if (friends.values.all { it.isEmpty() }) return friends
     for ((i, j) in friends)
         for (k in j) {
-            b.getOrPut(i, ::mutableSetOf).add(k)
-            friends[k]?.let { b[i]?.plusAssign(it) }
+            n.add(i)
+            n.add(k)
         }
-    for (i in c)
-        if (!b.keys.contains(i)) b.getOrPut(i) { mutableSetOf() }
-    for ((i,j) in friends)
-        if (j.isEmpty())
-            b.getOrPut(i) { mutableSetOf() }
-    for ((i, j) in b) {
-        if (j.contains(i)) j.remove(i)
-        b[i] = j
+    for (i in n) t[i] = 0
+
+    val m = mutableMapOf<String, MutableSet<String>>()
+    fun dfs(str: String, friends: Map<String, Set<String>>) {
+        t[str] = 1
+        for (i in t.keys)
+            if (str == i || (friends[str] != null && friends[str]!!.contains(i)))
+                for (k in friends[i] ?: continue) {
+                    m.getOrPut(str, ::mutableSetOf).add(k)
+                    if (t[i] != 1) dfs(i, friends)
+                }
+            else m.getOrPut(str){ mutableSetOf()}
     }
-    return b
+    for (str in t.keys) dfs(str, friends)
+    for ((i, j) in m) {
+        if (j.contains(i)) j.remove(i)
+        m[i] = j
+    }
+    return m
 }
 
 
