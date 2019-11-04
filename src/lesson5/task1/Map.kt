@@ -283,6 +283,9 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
             n.add(i)
             n.add(k)
         }
+    for ((i, j) in friends) if (j.isEmpty()) {
+        n.add(i)
+    }
     for (i in n) t[i] = 0
 
     val m = mutableMapOf<String, MutableSet<String>>()
