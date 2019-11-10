@@ -249,7 +249,6 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean = words.size != words.map { it.toList().sorted() }.toSet().size
-
 /**
  * Сложная
  *
@@ -274,40 +273,7 @@ fun hasAnagrams(words: List<String>): Boolean = words.size != words.map { it.toL
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val n = mutableSetOf<String>()
-    val t = mutableMapOf<String, Int>()
-    if (friends.values.all { it.isEmpty() }) return friends
-    for ((i, j) in friends)
-        for (k in j) {
-            n.add(i)
-            n.add(k)
-        }
-    for ((i, j) in friends) if (j.isEmpty()) {
-        n.add(i)
-    }
-    for (i in n) t[i] = 0
-
-    val m = mutableMapOf<String, MutableSet<String>>()
-    fun dfs(str: String, friends: Map<String, Set<String>>) {
-        t[str] = 1
-        for (i in t.keys)
-            if (str == i || (friends[str] != null && friends[str]!!.contains(i)))
-                for (k in friends[i] ?: continue) {
-                    m.getOrPut(str, ::mutableSetOf).add(k)
-                    if (t[i] != 1) dfs(i, friends)
-                }
-            else m.getOrPut(str){ mutableSetOf()}
-    }
-    for (str in t.keys) dfs(str, friends)
-    for ((i, j) in m) {
-        if (j.contains(i)) j.remove(i)
-        m[i] = j
-    }
-    return m
-}
-
-
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
 /**
  * Сложная
  *
@@ -326,13 +292,23 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val map = mutableMapOf<Int, Int>()
+    val list1 = list.toMutableList()
+    for (i in 0 until list.size) {
+        if (list[i] <= number) {
+            map[i] = list[i]
+            if (list.contains(number - list[i])) map[list.indexOf(number - list[i])] = number - list[i]
+        }
+        println(map)
+
+    }
     for (i in 0 until list.size - 1)
         for (j in i + 1 until list.size) {
             if (list[i] + list[j] == number) return Pair(i, j)
         }
     return Pair(-1, -1)
-}
 
+}
 /**
  * Очень сложная
  *

@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
+import kotlin.math.pow
 
 /**
  * Пример
@@ -154,17 +155,20 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
+
     val p = phone.split(" ", ")", "-", "(").filter { it != "" }.toMutableList()
-    try {
-        for (i in 0 until phone.length) if (phone[i].toString() == "(" && phone[i + 1].toString() == ")") return ""
-    } catch (e: StringIndexOutOfBoundsException) {
-        return ""
-    }
-    return try {
-        p.filter { it.toInt() >= 0 }.joinToString("")
-    } catch (e: NumberFormatException) {
-        return ""
-    }
+    if (phone.contains("()")) return ""
+    return if (!Regex("""(\+|[0-9]+)[0-9]+""").matches(p.joinToString(""))) "" else p.joinToString("")
+//    try {
+//        for (i in 0 until phone.length) if (phone[i].toString() == "(" && phone[i + 1].toString() == ")") return ""
+//    } catch (e: StringIndexOutOfBoundsException) {
+//        return ""
+//    }
+//    return try {
+//        p.filter { it.toInt() >= 0 }.joinToString("")
+//    } catch (e: NumberFormatException) {
+//        return ""
+//    }
 }
 
 /**
@@ -222,18 +226,16 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val a = expression.split(" ")
-    try {
         var result = a[0].toInt()
+
         for (i in 1 until a.size - 1 step 2) {
             when (a[i]) {
                 "+" -> result += a[i + 1].toInt()
                 "-" -> result -= a[i + 1].toInt()
+                else -> throw IllegalArgumentException("")
             }
         }
         return result
-    } catch (e: Exception) {
-        throw IllegalArgumentException()
-    }
 }
 
 /**
@@ -279,8 +281,11 @@ fun mostExpensive(description: String): String {
             val k = i.split(" ").toMutableList()
             if (k.size != 2 && k[0] != "") return ""
             val b = k.filter { it != "" }
+
             val j = b[1].split(".")
-            val n = j[0].toDouble() + j[1].toDouble() / (Math.pow(10.0, j[1].length.toDouble()))
+            val n: Double
+            n = if (b[1] == "0") 0.0
+            else j[0].toDouble() + (j[1].toDouble() / (10.0.pow(j[1].length.toDouble())))
             if (n >= max) {
                 max = n
                 str = b[0]
@@ -314,11 +319,14 @@ fun fromRoman(roman: String): Int {
         for (j in rom)
             for (i in 0 until a.size)
                 if (a[i] == j.second) a[i] = j.first.toString()
-        if(a.size == 1) return a[0].toInt()
+        if (a.size == 1) return a[0].toInt()
         var result = a[0].toInt()
-        for (i in 0 until a.size - 1)
-            if (a[i].toInt() >= a[i + 1].toInt()) result +=a[i + 1].toInt()
-            else result += a[i+1].toInt() - 2*a[i].toInt()
+        for (i in 0 until a.size - 1) {
+            val x = a[i].toInt()
+            val y = a[i].toInt()
+            if (x >= y) result += x
+            else result += y - 2 * x
+        }
         return result
     } catch (e: Exception) {
         return -1
