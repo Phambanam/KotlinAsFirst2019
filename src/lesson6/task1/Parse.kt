@@ -355,4 +355,4 @@ fun fromRoman(roman: String): Int {
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun findlocationopen(str: String, position: Int): Int = TODO()
+//fun findlocationopen(str: String, position: Int): Int = TODO()
