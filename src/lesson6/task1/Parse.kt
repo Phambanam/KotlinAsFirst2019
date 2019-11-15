@@ -3,7 +3,6 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
-import kotlin.math.pow
 
 /**
  * Пример
@@ -159,16 +158,7 @@ fun flattenPhoneNumber(phone: String): String {
     val p = phone.split(" ", ")", "-", "(").filter { it != "" }.toMutableList()
     if (phone.contains("()")) return ""
     return if (!Regex("""(\+|[0-9]+)[0-9]+""").matches(p.joinToString(""))) "" else p.joinToString("")
-//    try {
-//        for (i in 0 until phone.length) if (phone[i].toString() == "(" && phone[i + 1].toString() == ")") return ""
-//    } catch (e: StringIndexOutOfBoundsException) {
-//        return ""
-//    }
-//    return try {
-//        p.filter { it.toInt() >= 0 }.joinToString("")
-//    } catch (e: NumberFormatException) {
-//        return ""
-//    }
+
 }
 
 /**
@@ -225,17 +215,22 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val a = expression.split(" ")
-        var result = a[0].toInt()
-
-        for (i in 1 until a.size - 1 step 2) {
-            when (a[i]) {
-                "+" -> result += a[i + 1].toInt()
-                "-" -> result -= a[i + 1].toInt()
+    val s = expression.split(" ")
+    if (s.isEmpty() || s.size % 2 == 0) throw IllegalArgumentException("")
+    try {
+        var result = s[0].toInt()
+        for (i in 1..s.size - 2 step 2) {
+            val numb = s[i + 1].toInt()
+            when (s[i]) {
+                "+" -> result += numb
+                "-" -> result -= numb
                 else -> throw IllegalArgumentException("")
             }
         }
         return result
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException("")
+    }
 }
 
 /**
@@ -273,26 +268,18 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String {
-    val a = description.split(";")
+    val list = description.split(" ", "; ")
+    var a = 0.0
+    var b = 0
     try {
-        var max = 0.0
-        var str = ""
-        for (i in a) {
-            val k = i.split(" ").toMutableList()
-            if (k.size != 2 && k[0] != "") return ""
-            val b = k.filter { it != "" }
-
-            val j = b[1].split(".")
-            val n: Double
-            n = if (b[1] == "0") 0.0
-            else j[0].toDouble() + (j[1].toDouble() / (10.0.pow(j[1].length.toDouble())))
-            if (n >= max) {
-                max = n
-                str = b[0]
+        for (i in 1..list.size - 1 step 2) {
+            if (list[i].toDouble() > a) {
+                a = list[i].toDouble()
+                b = i - 1
             }
         }
-        return str
-    } catch (e: Exception) {
+        return list[b]
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -308,28 +295,28 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    val rom = mutableListOf(
-        Pair(1000, "M"), Pair(500, "D"),
-        Pair(100, "C"), Pair(50, "L"), Pair(10, "X"),
-        Pair(5, "V"), Pair(1, "I")
-    )
-    val a = roman.split("").filter { it != "" }.toMutableList()
-    try {
-        for (j in rom)
-            for (i in 0 until a.size)
-                if (a[i] == j.second) a[i] = j.first.toString()
-        if (a.size == 1) return a[0].toInt()
-        var result = a[0].toInt()
-        for (i in 0 until a.size - 1) {
-            val x = a[i].toInt()
-            val y = a[i].toInt()
-            if (x >= y) result += x
-            else result += y - 2 * x
+    val list = mutableListOf<Int>()
+    var a = -1
+    for (part in roman) {
+        when (part) {
+            'I' -> list.add(1)
+            'V' -> list.add(5)
+            'X' -> list.add(10)
+            'L' -> list.add(50)
+            'C' -> list.add(100)
+            'D' -> list.add(500)
+            'M' -> list.add(1000)
+            else -> return -1
         }
-        return result
-    } catch (e: Exception) {
-        return -1
     }
+    for (i in 0 until list.size) {
+        if (i == 0) a = list[0]
+        else {
+            if (list[i] <= list[i - 1]) a += list[i]
+            else a += list[i] - 2 * list[i - 1]
+        }
+    }
+    return a
 }
 
 /**
@@ -368,4 +355,4 @@ fun fromRoman(roman: String): Int {
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun findlocationopen(str: String, position: Int): Int = TODO()
