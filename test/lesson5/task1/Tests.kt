@@ -303,31 +303,32 @@ class Tests {
         )
         assertEquals(
             Pair(0, 1),
-            findSumOfTwo(listOf(0,0), 0)
+            findSumOfTwo(listOf(0, 0), 0)
         )
         assertEquals(
             Pair(-1, -1),
             findSumOfTwo(listOf(1, 2, 3), 6)
         )
-    }}
-//
-//    @Test
-//    @Tag("Impossible")
-//    fun bagPacking() {
-//        assertEquals(
-//            setOf("Кубок"),
-//            bagPacking(
-//                mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
-//                850
-//            )
-//        )
-//        assertEquals(
-//            emptySet<String>(),
-//            bagPacking(
-//                mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
-//                450
-//            )
-//        )
-//    }
-//
-//}
+    }
+
+    @Test
+    @Tag("Impossible")
+    fun bagPacking() {
+        assertEquals(
+            setOf("Кубок"),
+            bagPacking(
+                mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
+                850
+            )
+        )
+        assertEquals(
+            emptySet<String>(),
+            bagPacking(
+                mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
+                450
+            )
+        )
+    }
+}
+
+
