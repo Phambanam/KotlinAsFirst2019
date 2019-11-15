@@ -127,7 +127,7 @@ class Tests {
         assertEquals(49, fromRoman("XLIX"))
         assertEquals(-1, fromRoman("Z"))
     }
-
+}
 //    @Test
 //    @Tag("Impossible")
 //    fun computeDeviceCells() {
