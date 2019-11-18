@@ -274,6 +274,7 @@ fun hasAnagrams(words: List<String>): Boolean = words.size != words.map { it.toL
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+
 /**
  * Сложная
  *
@@ -292,23 +293,18 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val map = mutableMapOf<Int, Int>()
-    val list1 = list.toMutableList()
-    for (i in 0 until list.size) {
-        if (list[i] <= number) {
-            map[i] = list[i]
-            if (list.contains(number - list[i])) map[list.indexOf(number - list[i])] = number - list[i]
-        }
-        println(map)
-
+    fun count(i: Int, list: List<Int>): Int {
+        var d = 0
+        for (j in list) if (i == j) d++
+        return d
     }
-    for (i in 0 until list.size - 1)
-        for (j in i + 1 until list.size) {
-            if (list[i] + list[j] == number) return Pair(i, j)
-        }
+    for (i in list) {
+        if (i != number - i && list.contains(number - i)) return Pair(list.elementAt(i), list.elementAt(number - i))
+        if (number == 2 * i && count(i, list) > 1) return Pair(list.indexOf(i), list.lastIndexOf(i))
+    }
     return Pair(-1, -1)
-
 }
+
 /**
  * Очень сложная
  *
@@ -330,4 +326,34 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    fun test(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Int {
+        var count = 0
+        for (i in treasures.values)
+            if (capacity >= i.first) count++
+        return count
+    }
+    if (test(treasures, capacity) == 0) return emptySet()
+    val k = mutableSetOf<String>()
+    val b = mutableMapOf<String, Double>()
+    for (str in treasures.keys)
+        b[str] = treasures[str]!!.second.toDouble() / treasures[str]!!.first
+    val l = b.toList().toMutableList()
+    var d = Pair("a", 0.0)
+    for (i in 0 until l.size - 1)
+        for (j in i + 1 until l.size) {
+            if (l[i].second > l[j].second) {
+                d = l[i]
+                l[i] = l[j]
+                l[j] = d
+            }
+        }
+    var c = capacity
+    for (i in 0 until l.size)
+        if (c > treasures[l[i].first]!!.first) {
+            k.add(l[i].first)
+            while (c > treasures[l[i].first]!!.first)
+                c -= treasures[l[i].first]!!.first
+        }
+    return k
+}
