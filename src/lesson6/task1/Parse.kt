@@ -157,7 +157,7 @@ fun flattenPhoneNumber(phone: String): String {
 
     val p = phone.split(" ", ")", "-", "(").filter { it != "" }.toMutableList()
     if (phone.contains("()")) return ""
-    return if (!Regex("""(\+|[0-9]+)[0-9]+""").matches(p.joinToString(""))) "" else p.joinToString("")
+    return if (!Regex("""(\+|[0-9])[0-9]+""").matches(p.joinToString(""))) "" else p.joinToString("")
 
 }
 
