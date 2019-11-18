@@ -298,9 +298,14 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
         for (j in list) if (i == j) d++
         return d
     }
-    for (i in list) {
-        if (i != number - i && list.contains(number - i)) return Pair(list.elementAt(i), list.elementAt(number - i))
-        if (number == 2 * i && count(i, list) > 1) return Pair(list.indexOf(i), list.lastIndexOf(i))
+    for (i in 0 until list.size) {
+        if (list[i] != number - list[i] && list.contains(number - list[i])) 
+            for (j in list.indices) if (list[j] == number - list[i])
+                return Pair(i, j)
+        if (number == 2 * list[i] && count(list[i], list) > 1) return Pair(
+            list.indexOf(list[i]),
+            list.lastIndexOf(list[i])
+        )
     }
     return Pair(-1, -1)
 }
@@ -350,9 +355,9 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         }
     var c = capacity
     for (i in 0 until l.size)
-        if (c > treasures[l[i].first]!!.first) {
+        if (c >= treasures[l[i].first]!!.first) {
             k.add(l[i].first)
-            while (c > treasures[l[i].first]!!.first)
+            while (c >= treasures[l[i].first]!!.first)
                 c -= treasures[l[i].first]!!.first
         }
     return k
