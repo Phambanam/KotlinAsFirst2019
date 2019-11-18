@@ -347,12 +347,13 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var d = Pair("a", 0.0)
     for (i in 0 until l.size - 1)
         for (j in i + 1 until l.size) {
-            if (l[i].second > l[j].second) {
+            if (l[i].second < l[j].second) {
                 d = l[i]
                 l[i] = l[j]
                 l[j] = d
             }
         }
+    println(l)
     var c = capacity
     for (i in 0 until l.size)
         if (c >= treasures[l[i].first]!!.first) {
