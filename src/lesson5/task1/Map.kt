@@ -341,9 +341,11 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     if (test(treasures, capacity) == 0) return emptySet()
     val k = mutableSetOf<String>()
     val b = mutableMapOf<String, Double>()
+    // tinh ti gia
     for (str in treasures.keys)
         b[str] = treasures[str]!!.second.toDouble() / treasures[str]!!.first
     val l = b.toList().toMutableList()
+    // sap xep
     var d = Pair("a", 0.0)
     for (i in 0 until l.size - 1)
         for (j in i + 1 until l.size) {
@@ -361,9 +363,16 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             while (c >= treasures[l[i].first]!!.first)
                 c -= treasures[l[i].first]!!.first
         }
-    for (i in treasures.keys)
-        for (j in k)
-            if (treasures[i] == treasures[j] && capacity >= treasures[i]!!.first + treasures[j]!!.first)
-                k.add(i)
+    println(k)
+    var sum = 0
+    var t = capacity
+    for (i in k) sum = +treasures[i]!!.first
+    for (i in k)
+        for (j in treasures.keys)
+            if (treasures[i] == treasures[j] && t - sum >= treasures[j]!!.first && j != i) {
+                k.add(j)
+                println(k)
+                sum += treasures[j]!!.first
+            }
     return k
 }
