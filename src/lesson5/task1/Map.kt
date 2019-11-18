@@ -365,7 +365,8 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     println(k)
     var sum = 0
     var t = capacity
-    for (i in k) sum = +treasures[i]!!.first
+    for (i in k) sum += treasures[i]!!.first
+    println(sum)
     for (i in k)
         for (j in treasures.keys)
             if (treasures[i] == treasures[j] && t - sum >= treasures[j]!!.first && j != i) {
