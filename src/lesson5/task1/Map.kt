@@ -346,9 +346,9 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     for (str in treasures.keys)
         b[str] = (treasures[str] ?: error("")).second.toDouble() / (treasures[str] ?: error("")).first
     // sap xep
-    var r = treasures.toList().toMutableList()
-    var d = Pair("a", Pair(0, 0))
-    var e = Pair("a", Pair(0, 0))
+    val r = treasures.toList().toMutableList()
+    var d: Any
+    var e: Any
     for (i in 0 until r.size - 1)
         for (j in i + 1 until r.size) {
             if (r[i].second.second < r[j].second.second) {
@@ -356,13 +356,12 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
                 r[i] = r[j]
                 r[j] = d
             }
-            if (r[i].second.first > r[j].second.first && r[i].second.second == r[j].second.second) {
+            if (r[i].second.first >r[j].second.first && r[i].second.second == r[j].second.second) {
                 e = r[i]
                 r[i] = r[j]
                 r[j] = e
             }
         }
-    println(r)
     var c = capacity
     for (i in 0 until r.size)
         if (c >= (treasures[r[i].first] ?: error("")).first) {
@@ -371,7 +370,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         }
     if (c == capacity) return emptySet()
     var sum = 0
-    var t = capacity
+    val t = capacity
     for (i in k) sum += (treasures[i] ?: error("")).first
     for (i in k)
         for (j in treasures.keys)
