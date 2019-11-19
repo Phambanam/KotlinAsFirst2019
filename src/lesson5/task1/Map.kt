@@ -249,6 +249,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean = words.size != words.map { it.toList().sorted() }.toSet().size
+
 /**
  * Сложная
  *
@@ -332,18 +333,18 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    fun test(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Int {
-        var count = 0
-        for (i in treasures.values)
-            if (capacity >= i.first) count++
-        return count
-    }
-    if (test(treasures, capacity) == 0) return emptySet()
+//    fun test(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Int {
+//        var count = 0
+//        for ((first) in treasures.values)
+//            if (capacity >= first) count++
+//        return count
+//    }
+//    if (test(treasures, capacity) == 0) return emptySet()
     val k = mutableSetOf<String>()
     val b = mutableMapOf<String, Double>()
     // tinh ti gia
     for (str in treasures.keys)
-        b[str] = treasures[str]!!.second.toDouble() / treasures[str]!!.first
+        b[str] = (treasures[str] ?: error("")).second.toDouble() / (treasures[str] ?: error("")).first
     val l = b.toList().toMutableList()
     // sap xep
     var d = Pair("a", 0.0)
@@ -355,24 +356,21 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
                 l[j] = d
             }
         }
-    println(l)
     var c = capacity
     for (i in 0 until l.size)
-        if (c >= treasures[l[i].first]!!.first) {
+        if (c >= (treasures[l[i].first] ?: error("")).first) {
             k.add(l[i].first)
-            c -= treasures[l[i].first]!!.first
+            c -= (treasures[l[i].first] ?: error("")).first
         }
-    println(k)
+    if (c == capacity) return emptySet()
     var sum = 0
     var t = capacity
-    for (i in k) sum += treasures[i]!!.first
-    println(sum)
+    for (i in k) sum += (treasures[i] ?: error("")).first
     for (i in k)
         for (j in treasures.keys)
-            if (treasures[i] == treasures[j] && t - sum >= treasures[j]!!.first && j != i) {
+            if (treasures[i] == treasures[j] && t - sum >= (treasures[j] ?: error("")).first && j != i) {
                 k.add(j)
-                println(k)
-                sum += treasures[j]!!.first
+                sum += (treasures[j] ?: error("")).first
             }
     return k
 }
