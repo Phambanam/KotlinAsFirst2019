@@ -80,7 +80,7 @@ fun dateStrToDigit(str: String): String {
     )
     val date = str.split(" ")
     if (date.size != 3) return ""
-    try {
+    return try {
         val day = date[0].toInt()
         val year = date[2].toInt()
         val mont = month.indexOf(date[1]) + 1
@@ -215,20 +215,24 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val s = expression.split(" ").filter { it != "" }
-    for (i in expression.indices)
+    for (i in 0 until expression.length)
         require(!((expression[i] == '+' || expression[i] == '-') && expression[i + 1] in '0'..'9')) { "" }
+    val s = expression.split(" ")
     require(!(s.isEmpty() || s.size % 2 == 0)) { "" }
-    var result = s[0].toInt()
-    for (i in 1..s.size - 2 step 2) {
-        val numb = s[i + 1].toInt()
-        when (s[i]) {
-            "+" -> result += numb
-            "-" -> result -= numb
-            else -> throw IllegalArgumentException("")
+    try {
+        var result = s[0].toInt()
+        for (i in 1..s.size - 2 step 2) {
+            val numb = s[i + 1].toInt()
+            when (s[i]) {
+                "+" -> result += numb
+                "-" -> result -= numb
+                else -> throw IllegalArgumentException("")
+            }
         }
+        return result
+    } catch (e: Exception) {
+        throw IllegalArgumentException("")
     }
-    return result
 }
 
 /**
