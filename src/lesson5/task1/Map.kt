@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import lesson4.task1.mean
+import kotlin.math.max
 
 
 /**
@@ -333,50 +334,22 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-//    fun test(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Int {
-//        var count = 0
-//        for ((first) in treasures.values)
-//            if (capacity >= first) count++
-//        return count
-//    }
-//    if (test(treasures, capacity) == 0) return emptySet()
-    val k = mutableSetOf<String>()
-    val b = mutableMapOf<String, Double>()
-    // tinh ti gia
-    for (str in treasures.keys)
-        b[str] = (treasures[str] ?: error("")).second.toDouble() / (treasures[str] ?: error("")).first
-    // sap xep
-    val r = treasures.toList().toMutableList()
-    var d: Any
-    var e: Any
-    for (i in 0 until r.size - 1)
-        for (j in i + 1 until r.size) {
-            if (r[i].second.second < r[j].second.second) {
-                d = r[i]
-                r[i] = r[j]
-                r[j] = d
-            }
-            if (r[i].second.first >r[j].second.first && r[i].second.second == r[j].second.second) {
-                e = r[i]
-                r[i] = r[j]
-                r[j] = e
-            }
+    val m: Array<IntArray> = Array(5000) { IntArray(10000) }
+    val l = treasures.toList().toMutableList()
+    for (i in 0..l.size)
+        for (j in 0..capacity) {
+            if (i == 0 || j == 0) m[i][j] = 0
+            else if (j < l[i-1].second.first) m[i][j] = m[i - 1][j]
+            else m[i][j] = max(l[i-1].second.second + m[i - 1][j - l[i-1].second.first], m[i - 1][j])
         }
-    var c = capacity
-    for (i in 0 until r.size)
-        if (c >= (treasures[r[i].first] ?: error("")).first) {
-            k.add(r[i].first)
-            c -= (treasures[r[i].first] ?: error("")).first
+    val b = mutableSetOf<String>()
+    var j = capacity
+    for (i in l.size downTo 1) {
+        if (m[i][j] != m[i - 1][j]) {
+            b.add(l[i-1].first)
+            j -= l[i-1].second.first
         }
-    if (c == capacity) return emptySet()
-    var sum = 0
-    val t = capacity
-    for (i in k) sum += (treasures[i] ?: error("")).first
-    for (i in k)
-        for (j in treasures.keys)
-            if (treasures[i] == treasures[j] && t - sum >= (treasures[j] ?: error("")).first && j != i) {
-                k.add(j)
-                sum += (treasures[j] ?: error("")).first
-            }
-    return k
+        if (m[i][j] == 0) return b
+    }
+    return b
 }
