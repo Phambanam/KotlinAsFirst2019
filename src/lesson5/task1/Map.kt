@@ -339,15 +339,15 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     for (i in 0..l.size)
         for (j in 0..capacity) {
             if (i == 0 || j == 0) m[i][j] = 0
-            else if (j < l[i-1].second.first) m[i][j] = m[i - 1][j]
-            else m[i][j] = max(l[i-1].second.second + m[i - 1][j - l[i-1].second.first], m[i - 1][j])
+            else if (j < l[i - 1].second.first) m[i][j] = m[i - 1][j]
+            else m[i][j] = max(l[i - 1].second.second + m[i - 1][j - l[i - 1].second.first], m[i - 1][j])
         }
     val b = mutableSetOf<String>()
     var j = capacity
     for (i in l.size downTo 1) {
         if (m[i][j] != m[i - 1][j]) {
-            b.add(l[i-1].first)
-            j -= l[i-1].second.first
+            b.add(l[i - 1].first)
+            j -= l[i - 1].second.first
         }
         if (m[i][j] == 0) return b
     }
