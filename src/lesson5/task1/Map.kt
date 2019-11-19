@@ -345,18 +345,24 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     // tinh ti gia
     for (str in treasures.keys)
         b[str] = (treasures[str] ?: error("")).second.toDouble() / (treasures[str] ?: error("")).first
-    val l = b.toList().toMutableList()
     // sap xep
     var r = treasures.toList().toMutableList()
     var d = Pair("a", Pair(0, 0))
-    for (i in 0 until l.size - 1)
-        for (j in i + 1 until l.size) {
+    var e = Pair("a", Pair(0, 0))
+    for (i in 0 until r.size - 1)
+        for (j in i + 1 until r.size) {
             if (r[i].second.second < r[j].second.second) {
                 d = r[i]
                 r[i] = r[j]
                 r[j] = d
             }
+            if (r[i].second.first > r[j].second.first && r[i].second.second == r[j].second.second) {
+                e = r[i]
+                r[i] = r[j]
+                r[j] = e
+            }
         }
+    println(r)
     var c = capacity
     for (i in 0 until r.size)
         if (c >= (treasures[r[i].first] ?: error("")).first) {
