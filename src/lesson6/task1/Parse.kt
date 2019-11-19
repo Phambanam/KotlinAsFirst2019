@@ -215,8 +215,9 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    for (i in 0 until expression.length)
+    for (i in expression.indices)
         require(!((expression[i] == '+' || expression[i] == '-') && expression[i + 1] in '0'..'9')) { "" }
+    for (i in expression) if (i !in '0'..'9' || i !in 'a'..'Z' && i != ' ') throw IllegalArgumentException("")
     val s = expression.split(" ")
     require(!(s.isEmpty() || s.size % 2 == 0)) { "" }
     try {
