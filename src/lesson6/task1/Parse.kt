@@ -157,6 +157,7 @@ fun flattenPhoneNumber(phone: String): String {
 
     val p = phone.split(" ", ")", "-", "(").filter { it != "" }.toMutableList()
     if (phone.contains("()")) return ""
+    if(p[0] in "0".."9" && p.size == 1) return p.joinToString { "" }
     return if (!Regex("""(\+|[0-9])[0-9]+""").matches(p.joinToString(""))) "" else p.joinToString("")
 
 }
@@ -217,7 +218,7 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     for (i in expression.indices)
         require(!((expression[i] == '+' || expression[i] == '-') && expression[i + 1] in '0'..'9')) { "" }
-    for (i in expression) if (i !in '0'..'9' && i != '+' && i != '-' && i != ' ') throw IllegalArgumentException("")
+    for (i in expression) require(!(i !in '0'..'9' && i != '+' && i != '-' && i != ' ')) { "" }
     val s = expression.split(" ")
     require(!(s.isEmpty() || s.size % 2 == 0)) { "" }
     try {
@@ -274,16 +275,16 @@ fun mostExpensive(description: String): String {
     val list = description.split(" ", "; ")
     var a = 0.0
     var b = 0
-    try {
-        for (i in 1..list.size - 1 step 2) {
+    return try {
+        for (i in 1 until list.size step 2) {
             if (list[i].toDouble() > a) {
                 a = list[i].toDouble()
                 b = i - 1
             }
         }
-        return list[b]
+        list[b]
     } catch (e: NumberFormatException) {
-        return ""
+        ""
     }
 }
 
