@@ -199,7 +199,7 @@ fun bestHighJump(jumps: String): Int {
     var b = 0
     return try {
         jumpsA.all { it == "+" || it.toInt() % 1 == 0 }
-        for (i in 0 until jumpsA.size)
+        for (i in jumpsA.indices)
             if (jumpsA[i] == "+" && jumpsA[i - 1].toInt() > b) b = jumpsA[i - 1].toInt()
         b
     } catch (e: NumberFormatException) {
@@ -217,9 +217,8 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    for (i in expression.indices)
-        require(!((expression[i] == '+' || expression[i] == '-') && expression[i + 1] in '0'..'9')) { "" }
-    for (i in expression) require(!(i !in '0'..'9' && i != '+' && i != '-' && i != ' ')) { "" }
+    val x = expression.filter { it != ' ' }
+    require(Regex("""([0-9]+[+|-][0-9]+)+|[0-9]""").matches(x)) { "" }
     val s = expression.split(" ")
     require(!(s.isEmpty() || s.size % 2 == 0)) { "" }
     try {
