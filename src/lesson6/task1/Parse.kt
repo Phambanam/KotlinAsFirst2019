@@ -217,24 +217,19 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val x = expression.filter { it != ' ' }
-    require(Regex("""([0-9]+[+|-][0-9]+)+|[0-9]""").matches(x)) { "" }
+    val x = expression.filter { it != ' ' } + "+"
+    require(Regex("""([0-9]+[+|-])+""").matches(x)) { "" }
     val s = expression.split(" ")
-    require(!(s.isEmpty() || s.size % 2 == 0)) { "" }
-    try {
-        var result = s[0].toInt()
-        for (i in 1..s.size - 2 step 2) {
-            val numb = s[i + 1].toInt()
-            when (s[i]) {
-                "+" -> result += numb
-                "-" -> result -= numb
-                else -> throw IllegalArgumentException("")
-            }
+    var result = s[0].toInt()
+    for (i in 1..s.size - 2 step 2) {
+        val numb = s[i + 1].toInt()
+        when (s[i]) {
+            "+" -> result += numb
+            "-" -> result -= numb
+            else -> throw IllegalArgumentException("")
         }
-        return result
-    } catch (e: Exception) {
-        throw IllegalArgumentException("")
     }
+    return result
 }
 
 /**
