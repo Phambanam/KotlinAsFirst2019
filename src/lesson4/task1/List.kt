@@ -250,7 +250,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "") { if (it > 9) { "${'a' + it - 10}" } else it.toString() }
+fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator = "") {
+    if (it > 9) {
+        "${'a' + it - 10}"
+    } else it.toString()
+}
 
 /**
  * Средняя
@@ -260,6 +264,7 @@ fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(s
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int = polynom(digits.map { it }.reversed(), base)
+
 /**
  * Сложная
  *

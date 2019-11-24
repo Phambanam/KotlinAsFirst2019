@@ -218,7 +218,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val x = expression.filter { it != ' ' } + "+"
-    require(Regex("""([0-9]+[+|-])+""").matches(x)) { "" }
+    require(Regex("""([0-9]+[+|-])+""").matches(x)) {}
     val s = expression.split(" ")
     var result = s[0].toInt()
     for (i in 1..s.size - 2 step 2) {
@@ -226,7 +226,7 @@ fun plusMinus(expression: String): Int {
         when (s[i]) {
             "+" -> result += numb
             "-" -> result -= numb
-            else -> throw IllegalArgumentException("")
+            else -> throw IllegalArgumentException()
         }
     }
     return result
