@@ -60,14 +60,14 @@ Basic, Ruby, Swift.
     @Test
     @Tag("Normal")
     fun countSubstrings() {
-//        assertEquals(
-//            mapOf("РАЗНЫЕ" to 2, "ные" to 2, "Неряшливость" to 1, "е" to 49, "эволюция" to 0),
-//            countSubstrings("input/substrings_in1.txt", listOf("РАЗНЫЕ", "ные", "Неряшливость", "е", "эволюция"))
-//        )
-//        assertEquals(
-//            mapOf("Карминовый" to 2, "Некрасивый" to 2, "белоглазый" to 1),
-//            countSubstrings("input/substrings_in1.txt", listOf("Карминовый", "Некрасивый", "белоглазый"))
-//        )
+        assertEquals(
+            mapOf("РАЗНЫЕ" to 2, "ные" to 2, "Неряшливость" to 1, "е" to 49, "эволюция" to 0),
+            countSubstrings("input/substrings_in1.txt", listOf("РАЗНЫЕ", "ные", "Неряшливость", "е", "эволюция"))
+        )
+        assertEquals(
+            mapOf("Карминовый" to 2, "Некрасивый" to 2, "белоглазый" to 1),
+            countSubstrings("input/substrings_in1.txt", listOf("Карминовый", "Некрасивый", "белоглазый"))
+        )
         assertEquals(
             mapOf("--" to 4, "ее" to 2, "животное" to 2, "." to 2),
             countSubstrings("input/substrings_in2.txt", listOf("--", "ее", "животное", "."))
@@ -122,8 +122,7 @@ Basic, Ruby, Swift.
     fun alignFileByWidth() {
         alignFileByWidth("input/width_in1.txt", "temp.txt")
         assertFileContent(
-            "temp.txt",
-            """Простая
+            "temp.txt", """Простая
 
 Во       входном       файле       с       именем       inputName       содержится       некоторый      текст.
 Вывести   его  в  выходной  файл  с  именем  outputName,  выровняв  по  левому  и  правому  краю  относительно

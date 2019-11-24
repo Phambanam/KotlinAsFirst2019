@@ -84,7 +84,16 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val input = File(inputName).readText()
+    val map = mapOf<Char, Char>('ы' to 'и', 'Ы' to 'И', 'я' to 'а', 'Я' to 'А', 'ю' to 'у', 'Ю' to 'У')
+    outputStream.write(input[0].toString())
+    for (i in 1 until input.length) {
+        if ((input[i - 1] in "ЖЧШЩжчшщ") && (input[i] in map.keys))
+            outputStream.write(map[input[i]].toString())
+        else outputStream.write(input[i].toString())
+    }
+    outputStream.close()
 }
 
 /**
@@ -105,7 +114,15 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val input = File(inputName).readLines().map { it.trim() }
+    val d = input.map { it.length }.max()!!
+    for (i in input) {
+        val h = " ".repeat((d - i.length) / 2)
+        outputStream.write(h + i)
+        outputStream.newLine()
+    }
+    outputStream.close()
 }
 
 /**
@@ -136,7 +153,27 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val input = File(inputName).readLines().map { it.trim() }
+    val d = input.map { it.length }.max()!!
+
+    for (line in input) {
+        var h = ""
+        if (line.length != d) {
+            val s = line.split(" ").filter { it != " " }.toMutableList()
+            val k = d - s.map { it.length }.sum()
+            if (s.size > 2) {
+                for (i in 0 until k % (s.size - 1)) s[i] += " "
+                for (i in 0 until s.size - 1) h += s[i] + " ".repeat(k / (s.size - 1))
+                h += s[s.size - 1]
+            }
+            if (s.size == 2) h = s[0] + " ".repeat(k) + s[1]
+            if (s.size == 1) h = s[0]
+        } else h = line
+        outputStream.write(h)
+        outputStream.newLine()
+    }
+    outputStream.close()
 }
 
 /**
