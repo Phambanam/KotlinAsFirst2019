@@ -120,12 +120,12 @@ fun centerFile(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val input = File(inputName).readLines().map { it.trim() }
     val d = input.map { it.length }.max()!!
-    for (i in input) {
-        if (i == "") outputStream.write("") else {
+    if (input.isEmpty()) outputStream.write("") else {
+        for (i in input) {
             val h = " ".repeat((d - i.length) / 2)
             outputStream.write(h + i)
+            outputStream.newLine()
         }
-        outputStream.newLine()
     }
     outputStream.close()
 }
@@ -164,19 +164,20 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 
     for (line in input) {
         var h = ""
-        if(line == "")  outputStream.write("") else {
-        if (line.length != d) {
-            val s = line.split(" ").filter { it != " " }.toMutableList()
-            val k = d - s.map { it.length }.sum()
-            if (s.size > 2) {
-                for (i in 0 until k % (s.size - 1)) s[i] += " "
-                for (i in 0 until s.size - 1) h += s[i] + " ".repeat(k / (s.size - 1))
-                h += s[s.size - 1]
-            }
-            if (s.size == 2) h = s[0] + " ".repeat(k) + s[1]
-            if (s.size == 1) h = s[0]
-        } else h = line
-        outputStream.write(h)}
+        if (line == "") outputStream.write("") else {
+            if (line.length != d) {
+                val s = line.split(" ").filter { it != " " }.toMutableList()
+                val k = d - s.map { it.length }.sum()
+                if (s.size > 2) {
+                    for (i in 0 until k % (s.size - 1)) s[i] += " "
+                    for (i in 0 until s.size - 1) h += s[i] + " ".repeat(k / (s.size - 1))
+                    h += s[s.size - 1]
+                }
+                if (s.size == 2) h = s[0] + " ".repeat(k) + s[1]
+                if (s.size == 1) h = s[0]
+            } else h = line
+            outputStream.write(h)
+        }
         outputStream.newLine()
     }
     outputStream.close()
