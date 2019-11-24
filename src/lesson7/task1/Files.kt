@@ -161,10 +161,10 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val input = File(inputName).readLines().map { it.trim() }
     val d = input.map { it.length }.max()!!
+    if (input.isEmpty()) outputStream.write("") else {
+        for (line in input) {
+            var h = ""
 
-    for (line in input) {
-        var h = ""
-        if (line == "") outputStream.write("") else {
             if (line.length != d) {
                 val s = line.split(" ").filter { it != " " }.toMutableList()
                 val k = d - s.map { it.length }.sum()
@@ -177,8 +177,8 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 if (s.size == 1) h = s[0]
             } else h = line
             outputStream.write(h)
+            outputStream.newLine()
         }
-        outputStream.newLine()
     }
     outputStream.close()
 }
