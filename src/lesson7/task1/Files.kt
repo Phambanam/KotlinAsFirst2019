@@ -161,10 +161,7 @@ fun centerFile(inputName: String, outputName: String) {
 fun alignFileByWidth(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val input = File(inputName).readLines().map { it.trim() }
-    val d = input.map { it.length }.max() ?: 0
-    var n = 0
-    for (i in input.indices) if (input[i].length == d)
-        n = input[i].split(" ").filter { it != " " }.joinToString(" ").length
+    val d = input.map { it -> it.split(" ").filter { it != " " }.joinToString(" ").length }.max() ?: 0
     if (d == 0) outputStream.write("") else {
         for (line in input) {
             var h = ""
@@ -172,7 +169,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             else {
 
                 val s = line.split(" ").filter { it != " " }.toMutableList()
-                val k = n - s.map { it.length }.sum()
+                val k = d - s.map { it.length }.sum()
                 if (s.size > 2) {
                     for (i in 0 until k % (s.size - 1)) s[i] += " "
                     for (i in 0 until s.size - 1) h += s[i] + " ".repeat(k / (s.size - 1))
