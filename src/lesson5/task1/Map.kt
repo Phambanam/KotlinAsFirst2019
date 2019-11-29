@@ -333,17 +333,44 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
+fun lc(m: Int, n: Int): Int {
+    var a = m
+    var b = n
+
+    if (m == n) return m
+    while (a != b) {
+        if (a > b) {
+            a -= b
+        } else {
+            b -= a
+        }
+    }
+    return a
+}
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     val m: Array<IntArray> = Array(5000) { IntArray(10000) }
-    val l = treasures.toList().toMutableList()
+
+    var list = mutableListOf<Int>()
+    for (i in treasures.values) {
+        list.add(i.first)
+        list.add(i.second)
+    }
+    list.add(capacity)
+    var t = list[0]
+    for (i in 1 until list.size) {
+        t = lc(t, list[i])
+    }
+    var tre = treasures.mapValues { Pair(it.value.first / t, it.value.second / t) }
+    val l = tre.toList().toMutableList()
+    val cap = capacity / t
     for (i in 0..l.size)
-        for (j in 0..capacity) {
+        for (j in 0..cap) {
             if (i == 0 || j == 0) m[i][j] = 0
             else if (j < l[i - 1].second.first) m[i][j] = m[i - 1][j]
             else m[i][j] = max(l[i - 1].second.second + m[i - 1][j - l[i - 1].second.first], m[i - 1][j])
         }
     val b = mutableSetOf<String>()
-    var j = capacity
+    var j = cap
     for (i in l.size downTo 1) {
         if (m[i][j] != m[i - 1][j]) {
             b.add(l[i - 1].first)
