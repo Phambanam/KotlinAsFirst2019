@@ -350,7 +350,7 @@ fun lc(m: Int, n: Int): Int {
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     val m: Array<IntArray> = Array(5000) { IntArray(10000) }
 
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     for (i in treasures.values) {
         list.add(i.first)
         list.add(i.second)
@@ -360,7 +360,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     for (i in 1 until list.size) {
         t = lc(t, list[i])
     }
-    var tre = treasures.mapValues { Pair(it.value.first / t, it.value.second / t) }
+    val tre = treasures.mapValues { Pair(it.value.first / t, it.value.second / t) }
     val l = tre.toList().toMutableList()
     val cap = capacity / t
     for (i in 0..l.size)

@@ -163,8 +163,8 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val input = File(inputName).readLines().map { it.trim() }
     val d = input.map { it.length }.max() ?: 0
     var n = 0
-//    for (i in input.indices) if (input[i].length == d)
-//        n = input[i].split(" ").filter { it != " " }.joinToString(" ").length
+    for (i in input.indices) if (input[i].length == d)
+        n = input[i].split(" ").filter { it != " " }.joinToString(" ").length
     if (d == 0) outputStream.write("") else {
         for (line in input) {
             var h = ""
@@ -172,7 +172,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             else {
 
                 val s = line.split(" ").filter { it != " " }.toMutableList()
-                val k = d - s.map { it.length }.sum()
+                val k = n - s.map { it.length }.sum()
                 if (s.size > 2) {
                     for (i in 0 until k % (s.size - 1)) s[i] += " "
                     for (i in 0 until s.size - 1) h += s[i] + " ".repeat(k / (s.size - 1))
@@ -207,13 +207,13 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    var map = mutableMapOf<String, Int>()
-    var mapA = mutableMapOf<String, Int>()
-    var s = "ёячсмитьбюэждлорпавыфйцукенгшщзхъmnbvcxzasdfghjklqwertyuiop"
-    var input = File(inputName).readLines().joinToString(" ").toLowerCase().filter { it in s || it == ' ' }.split(" ")
+    val map = mutableMapOf<String, Int>()
+    val mapA = mutableMapOf<String, Int>()
+    val s = "ёячсмитьбюэждлорпавыфйцукенгшщзхъmnbvcxzasdfghjklqwertyuiop"
+    val input = File(inputName).readLines().joinToString(" ").toLowerCase().filter { it in s || it == ' ' }.split(" ")
         .map { " $it " }
 
-    var l = input.filter { !Regex("""[ ]+""").matches(it) }.joinToString("")
+    val l = input.filter { !Regex("""[ ]+""").matches(it) }.joinToString("")
     println(l)
     for (i in input) {
         val d = (" $i ").toRegex().findAll(l).count()
@@ -222,7 +222,7 @@ fun top20Words(inputName: String): Map<String, Int> {
     }
     var a = Pair("", 0)
     println(map)
-    var list = map.toList().toMutableList()
+    val list = map.toList().toMutableList()
     if (map.size < 20) return map
     else {
         for (i in 0..19)
