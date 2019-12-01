@@ -161,15 +161,15 @@ fun centerFile(inputName: String, outputName: String) {
 fun alignFileByWidth(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val input = File(inputName).readLines().map { it.split(" ").filter { it != "" }.joinToString(" ") }
-    val d = input.map { it.length }.max() ?: 0
-    if (d == 0) outputStream.write("") else {
+    val lengthmax = input.map { it.length }.max() ?: 0
+    if (lengthmax == 0) outputStream.write("") else {
         for (line in input) {
             var h = ""
-            if (line.length == d) h = line.split(" ").filter { it != " " }.joinToString(" ")
+            if (line.length == lengthmax) h = line.split(" ").filter { it != " " }.joinToString(" ")
             else {
 
                 val s = line.split(" ").filter { it != " " }.toMutableList()
-                val k = d - s.map { it.length }.sum()
+                val k = lengthmax - s.map { it.length }.sum()
                 if (s.size > 2) {
                     for (i in 0 until k % (s.size - 1)) s[i] += " "
                     for (i in 0 until s.size - 1) h += s[i] + " ".repeat(k / (s.size - 1))
@@ -217,7 +217,6 @@ fun top20Words(inputName: String): Map<String, Int> {
         println(d)
         if (d > 1) map[i] = d
     }
-    var a = Pair("", 0)
     println(map)
     val list = map.toList().toMutableList()
     if (map.size < 20) return map
@@ -342,7 +341,60 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val input1 = File(inputName).readText()
+    val input = File(inputName).readLines()
+    var a = 0
+    var b = 0
+    var c = 0
+    outputStream.write("<html>")
+    outputStream.newLine()
+    outputStream.write("<body>")
+    outputStream.newLine()
+    outputStream.write("<p>")
+    outputStream.newLine()
+    var input2 = input.toMutableList().map { it.replace("**", "<b>") }.toMutableList()
+    input2 = input2.toMutableList().map { it.replace("*", "<i>") }.toMutableList()
+    input2 = input2.toMutableList().map { it.replace("~~", "<s>") }.toMutableList()
+    for (line in input2) {
+        if (line == "") {
+            outputStream.write("</p>")
+            outputStream.write("<p>")
+        }
+        if (line.length <= 3 && line != "") {
+            outputStream.write(line)
+            outputStream.newLine()
+        }
+        if (line.length > 3) {
+            for (i in 0 until line.length - 2)
+                when {
+
+                    "${line[i]}${line[i + 1]}${line[i + 2]}" == "<b>" -> {
+                        a++
+                        if (a % 2 == 0) outputStream.write("${line[i]}/") else outputStream.write("${line[i]}")
+                    }
+                    "${line[i]}${line[i + 1]}${line[i + 2]}" == "<s>" -> {
+                        b++
+                        if (b % 2 == 0) outputStream.write("${line[i]}/") else outputStream.write("${line[i]}")
+                    }
+
+                    "${line[i]}${line[i + 1]}${line[i + 2]}" == "<i>" -> {
+                        c++
+                        if (c % 2 == 0) outputStream.write("${line[i]}/") else outputStream.write("${line[i]}")
+                    }
+                    else -> outputStream.write("${line[i]}")
+                }
+            outputStream.write("${line[line.length - 2]}${line[line.length - 1]}")
+        }
+        outputStream.newLine()
+    }
+    outputStream.write("</p>")
+    outputStream.newLine()
+    outputStream.write("${input1[input1.length - 1]}${input1[input1.length - 2]}")
+    outputStream.write("</body>")
+    outputStream.newLine()
+    outputStream.write("</html>")
+    outputStream.close()
 }
 
 /**
