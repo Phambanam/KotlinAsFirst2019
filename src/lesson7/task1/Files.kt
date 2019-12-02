@@ -359,6 +359,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     for (line in input2) {
         if (line == "") {
             outputStream.write("</p>")
+            outputStream.newLine()
             outputStream.write("<p>")
         }
         if (line.length <= 3 && line != "") {
@@ -390,7 +391,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     }
     outputStream.write("</p>")
     outputStream.newLine()
-    outputStream.write("${input1[input1.length - 1]}${input1[input1.length - 2]}")
     outputStream.write("</body>")
     outputStream.newLine()
     outputStream.write("</html>")
