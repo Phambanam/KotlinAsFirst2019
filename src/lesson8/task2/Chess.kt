@@ -3,6 +3,7 @@
 package lesson8.task2
 
 import kotlin.math.abs
+import kotlin.math.min
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -150,13 +151,13 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = when (bishopMov
     1 -> listOf(start, end)
     -1 -> listOf()
     else -> {
-        var a = Square(0, 0)
+        var const = Square(0, 0)
         for (i in 1..8)
             for (j in 1..8) {
                 val cell = Square(i, j)
-                if (bishopMoveNumber(cell, start) == 1 && bishopMoveNumber(cell, end) == 1) a = cell
+                if (bishopMoveNumber(cell, start) == 1 && bishopMoveNumber(cell, end) == 1) const = cell
             }
-        listOf(start, a, end)
+        listOf(start, const, end)
     }
 }
 
@@ -180,7 +181,21 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = when (bishopMov
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    var a = min(abs(start.row - end.row), start.column - end.column)
+    val d: Int
+    a += if (abs(end.row - start.row) == a) abs(end.column - start.column) - a
+    else abs(end.row - start.row) - a
+    when {
+        !start.inside() || !end.inside() -> throw IllegalArgumentException()
+        start == end -> d = 0
+        start.column == end.column -> d = abs(start.row - end.row)
+        start.row == end.row -> d = abs(start.column - end.column)
+        start.column - end.column == start.row - end.row -> d = abs(start.row - end.row)
+        else -> d = a
+    }
+    return d
+}
 
 /**
  * Сложная
