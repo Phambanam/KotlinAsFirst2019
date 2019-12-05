@@ -67,6 +67,7 @@ fun square(notation: String): Square = when {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int = when {
+    !start.inside() || !end.inside() -> throw IllegalArgumentException()
     start == end -> 0
     start.column == end.column || start.row == end.row -> 1
     else -> 2
@@ -89,8 +90,8 @@ fun rookMoveNumber(start: Square, end: Square): Int = when {
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>()
     when {
-        start == end -> list.add(start)
-        start.column == end.column || start.row == end.row -> list.add(start) && list.add(end)
+        rookMoveNumber(start, end) == 0 -> list.add(start)
+        rookMoveNumber(start, end) == 1 -> list.add(start) && list.add(end)
         else -> list.add(start) && list.add(Square(start.column, end.row)) && list.add(end)
     }
     return list
