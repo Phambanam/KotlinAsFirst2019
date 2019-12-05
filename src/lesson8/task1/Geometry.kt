@@ -126,7 +126,7 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    var r = diameter.begin.distance(diameter.end) / 2
+    val r = diameter.begin.distance(diameter.end) / 2
     val o = Point(
         (diameter.begin.x + diameter.end.x) / 2,
         (diameter.begin.y + diameter.end.y) / 2
@@ -207,8 +207,8 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-    if (circles.size < 2) throw java.lang.IllegalArgumentException()
-    var min = Double.MAX_VALUE
+    require(circles.size >= 2)
+    var min = circles[0].distance(circles[1])
     var pair = Pair(circles[0], circles[1])
     for (i in circles.indices)
         for (j in i + 1 until circles.size)
