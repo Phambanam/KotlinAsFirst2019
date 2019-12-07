@@ -183,7 +183,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = when (bishopMov
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
 fun kingMoveNumber(start: Square, end: Square): Int {
-    var a = min(abs(start.row - end.row), start.column - end.column)
+    var a = min(abs(start.row - end.row), abs(start.column - end.column))
     val d: Int
     a += if (abs(end.row - start.row) == a) abs(end.column - start.column) - a
     else abs(end.row - start.row) - a
