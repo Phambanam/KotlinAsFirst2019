@@ -261,8 +261,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
             }
         }
     }
-    println(list)
-    return list
+    return list.toSet().toList()
 }
 
 /**
