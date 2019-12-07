@@ -184,6 +184,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = when (bishopMov
  */
 fun kingMoveNumber(start: Square, end: Square): Int {
     var a = min(abs(start.row - end.row), abs(start.column - end.column))
+    require(!(!start.inside() || !end.inside()))
     a += if (abs(end.row - start.row) == a) abs(end.column - start.column) - a
     else abs(end.row - start.row) - a
     return a
@@ -208,15 +209,21 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     val b = start.row
     val c = end.column
     val d = end.row
-
     if (kingMoveNumber(start, end) == 0) return listOf(start)
     if (kingMoveNumber(start, end) == 1) return listOf(start, end)
     val list = mutableListOf<Square>()
     list.add(start)
+    if (a == c) {
+        if (b > d) for (i in 1..b - d) list.add(Square(a, b - i))
+        else for (i in 1..d - b) list.add(Square(a, b + i))
+    }
+    if (b == d)
+        if (a > c) for (i in 1..a - c) list.add(Square(a - i, b))
+        else for (i in 1..c - a) list.add(Square(a + i, b))
     val k = abs(a - c) - abs(b - d)
     if (k >= 0) {
-        if (a > c) {
-            if (b > d) {
+        if (a >= c) {
+            if (b >= d) {
                 for (i in 1..abs(b - d)) list.add(Square(a - i, b - i))
                 for (i in 1..a - abs(b - d) - c) list.add(
                     Square(a - i, b - abs(b - d))
@@ -226,7 +233,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
                 for (i in 1..a - abs(b - d) - c) list.add(Square(a - i, b + abs(b - d)))
             }
         } else {
-            if (b > d) {
+            if (b >= d) {
                 for (i in 1..abs(b - d)) list.add(Square(a + i, b - i))
                 for (i in 1..a - abs(b - d) - c) list.add(Square(a + i, b - abs(b - d)))
             } else {
@@ -236,8 +243,8 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         }
 
     } else {
-        if (a > c) {
-            if (b > d) {
+        if (a >= c) {
+            if (b >= d) {
                 for (i in 1..abs(a - c)) list.add(Square(a - i, b - i))
                 for (i in 1..d - abs(a - c) - b) list.add(Square(a - abs(a - c), b - abs(a - c) - i))
             } else {
@@ -245,7 +252,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
                 for (i in 1..d - abs(a - c) - b) list.add(Square(a - abs(a - c), b + abs(a - c) + i))
             }
         } else {
-            if (b > d) {
+            if (b >= d) {
                 for (i in 1..abs(a - c)) list.add(Square(a + i, b - i))
                 for (i in 1..b - abs(a - c) - d) list.add(Square(a + i, b - abs(a - c)))
             } else {
