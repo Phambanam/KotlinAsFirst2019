@@ -184,18 +184,9 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = when (bishopMov
  */
 fun kingMoveNumber(start: Square, end: Square): Int {
     var a = min(abs(start.row - end.row), abs(start.column - end.column))
-    val d: Int
     a += if (abs(end.row - start.row) == a) abs(end.column - start.column) - a
     else abs(end.row - start.row) - a
-    d = when {
-        !start.inside() || !end.inside() -> throw IllegalArgumentException()
-        start == end -> 0
-        start.column == end.column -> abs(start.row - end.row)
-        start.row == end.row -> abs(start.column - end.column)
-        start.column - end.column == start.row - end.row -> abs(start.row - end.row)
-        else -> a
-    }
-    return d
+    return a
 }
 
 /**
@@ -212,8 +203,84 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    val a = start.column
+    val b = start.row
+    val c = end.column
+    val d = end.row
 
+    if (kingMoveNumber(start, end) == 0) return listOf(start)
+    if (kingMoveNumber(start, end) == 1) return listOf(start, end)
+    val list = mutableListOf<Square>()
+    list.add(start)
+    val k = abs(a - c) - abs(b - d)
+    if (k >= 0) {
+        if (a > c) {
+            if (b > d) {
+                for (i in 1..abs(b - d)) list.add(Square(a - i, b - i))
+                for (i in 1..a - abs(b - d) - c) list.add(
+                    Square(a - i, b - abs(b - d))
+                )
+            } else {
+                for (i in 1..abs(b - d)) list.add(Square(start.column - i, start.row + i))
+                for (i in 1..a - abs(b - d) - c) list.add(Square(a - i, b + abs(b - d)))
+            }
+        } else {
+            if (b > d) {
+                for (i in 1..abs(b - d)) list.add(Square(a + i, b - i))
+                for (i in 1..a - abs(b - d) - c) list.add(Square(a + i, b - abs(b - d)))
+            } else {
+                for (i in 1..abs(b - d)) list.add(Square(a + i, b + i))
+                for (i in 1..a - abs(b - d) - c) list.add(Square(a + i, b + abs(b - d)))
+            }
+        }
+
+    } else {
+        if (a > c) {
+            if (b > d) {
+                for (i in 1..abs(a - c)) list.add(Square(a - i, b - i))
+                for (i in 1..d - abs(a - c) - b) list.add(Square(a - abs(a - c), b - abs(a - c) - i))
+            } else {
+                for (i in 1..abs(a - c)) list.add(Square(a - i, b + i))
+                for (i in 1..d - abs(a - c) - b) list.add(Square(a - abs(a - c), b + abs(a - c) + i))
+            }
+        } else {
+            if (b > d) {
+                for (i in 1..abs(a - c)) list.add(Square(a + i, b - i))
+                for (i in 1..b - abs(a - c) - d) list.add(Square(a + i, b - abs(a - c)))
+            } else {
+                for (i in 1..abs(a - c)) list.add(Square(a + i, b + i))
+                for (i in 1..d - abs(a - c) - b) list.add(Square(a + i, b + abs(a - c)))
+            }
+        }
+    }
+    println(list)
+    return list
+}
+
+/**
+ * Сложная
+ *
+ * Определить число ходов, за которое шахматный конь пройдёт из клетки start в клетку end.
+ * Шахматный конь одним ходом вначале передвигается ровно на 2 клетки по горизонтали или вертикали,
+ * а затем ещё на 1 клетку под прямым углом, образуя букву "Г".
+ * Ниже точками выделены возможные ходы коня, а крестиками -- невозможные:
+ *
+ * .xxx.xxx
+ * xxKxxxxx
+ * .xxx.xxx
+ * x.x.xxxx
+ * xxxxxxxx
+ * xxxxxxxx
+ * xxxxxxxx
+ * xxxxxxxx
+ *
+ * Если клетки start и end совпадают, вернуть 0.
+ * Если любая из клеток некорректна, бросить IllegalArgumentException().
+ *
+ * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
+ * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
+ */
 /**
  * Сложная
  *
@@ -239,6 +306,26 @@ fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
  */
 fun knightMoveNumber(start: Square, end: Square): Int = TODO()
 
+/**
+ * Очень сложная
+ *
+ * Вернуть список из клеток, по которым шахматный конь может быстрее всего попасть из клетки start в клетку end.
+ * Описание ходов коня см. предыдущую задачу.
+ * Список всегда включает в себя клетку start. Клетка end включается, если она не совпадает со start.
+ * Между ними должны находиться промежуточные клетки, по порядку от start до end.
+ * Примеры:
+ *
+ * knightTrajectory(Square(3, 3), Square(3, 3)) = listOf(Square(3, 3))
+ * здесь возможны другие варианты)
+ * knightTrajectory(Square(3, 1), Square(6, 3)) = listOf(Square(3, 1), Square(5, 2), Square(4, 4), Square(6, 3))
+ * (здесь возможен единственный вариант)
+ * knightTrajectory(Square(3, 5), Square(5, 6)) = listOf(Square(3, 5), Square(5, 6))
+ * (здесь опять возможны другие варианты)
+ * knightTrajectory(Square(7, 7), Square(8, 8)) =
+ *     listOf(Square(7, 7), Square(5, 8), Square(4, 6), Square(6, 7), Square(8, 8))
+ *
+ * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
+ */
 /**
  * Очень сложная
  *
