@@ -187,13 +187,13 @@ fun kingMoveNumber(start: Square, end: Square): Int {
     val d: Int
     a += if (abs(end.row - start.row) == a) abs(end.column - start.column) - a
     else abs(end.row - start.row) - a
-    when {
+    d = when {
         !start.inside() || !end.inside() -> throw IllegalArgumentException()
-        start == end -> d = 0
-        start.column == end.column -> d = abs(start.row - end.row)
-        start.row == end.row -> d = abs(start.column - end.column)
-        start.column - end.column == start.row - end.row -> d = abs(start.row - end.row)
-        else -> d = a
+        start == end -> 0
+        start.column == end.column -> abs(start.row - end.row)
+        start.row == end.row -> abs(start.column - end.column)
+        start.column - end.column == start.row - end.row -> abs(start.row - end.row)
+        else -> a
     }
     return d
 }
