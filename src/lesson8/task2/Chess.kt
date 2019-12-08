@@ -235,7 +235,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         } else {
             if (b >= d) {
                 for (i in 1..abs(b - d)) list.add(Square(a + i, b - i))
-                for (i in 1..a - abs(b - d) - c) list.add(Square(a + i, b - abs(b - d)))
+                for (i in 1..b - abs(a - c) - d) list.add(Square(c, b - abs(b - d) - i))
             } else {
                 for (i in 1..abs(b - d)) list.add(Square(a + i, b + i))
                 for (i in 1..a - abs(b - d) - c) list.add(Square(a + i, b + abs(b - d)))
