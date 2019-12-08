@@ -225,20 +225,18 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         if (a >= c) {
             if (b >= d) {
                 for (i in 1..abs(b - d)) list.add(Square(a - i, b - i))
-                for (i in 1..a - abs(b - d) - c) list.add(
-                    Square(a - i, b - abs(b - d))
-                )
+                for (i in 1..a - abs(b - d) - c) list.add(Square(a - abs(b - d) - i, d))
             } else {
                 for (i in 1..abs(b - d)) list.add(Square(start.column - i, start.row + i))
-                for (i in 1..a - abs(b - d) - c) list.add(Square(a - i, b + abs(b - d)))
+                for (i in 1..a - abs(b - d) - c) list.add(Square(a - abs(b - d) - i, d))
             }
         } else {
             if (b >= d) {
                 for (i in 1..abs(b - d)) list.add(Square(a + i, b - i))
-                for (i in 1..b - abs(a - c) - d) list.add(Square(c, b - abs(b - d) - i))
+                for (i in 1..c - abs(b - d) - a) list.add(Square(a + abs(b - d) + i, d))
             } else {
                 for (i in 1..abs(b - d)) list.add(Square(a + i, b + i))
-                for (i in 1..a - abs(b - d) - c) list.add(Square(a + i, b + abs(b - d)))
+                for (i in 1..c - abs(b - d) - a) list.add(Square(a + abs(b - d) + i, d))
             }
         }
 
@@ -246,21 +244,22 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         if (a >= c) {
             if (b >= d) {
                 for (i in 1..abs(a - c)) list.add(Square(a - i, b - i))
-                for (i in 1..d - abs(a - c) - b) list.add(Square(a - abs(a - c), b - abs(a - c) - i))
+                for (i in 1..b - abs(a - c) - d) list.add(Square(c, b - abs(a - c) - i))
             } else {
                 for (i in 1..abs(a - c)) list.add(Square(a - i, b + i))
-                for (i in 1..d - abs(a - c) - b) list.add(Square(a - abs(a - c), b + abs(a - c) + i))
+                for (i in 1..d - abs(a - c) - b) list.add(Square(c, b + abs(a - c) + i))
             }
         } else {
             if (b >= d) {
                 for (i in 1..abs(a - c)) list.add(Square(a + i, b - i))
-                for (i in 1..b - abs(a - c) - d) list.add(Square(a + i, b - abs(a - c)))
+                for (i in 1..b - abs(a - c) - d) list.add(Square(c, b - abs(a - c) - i))
             } else {
                 for (i in 1..abs(a - c)) list.add(Square(a + i, b + i))
-                for (i in 1..d - abs(a - c) - b) list.add(Square(a + i, b + abs(a - c)))
+                for (i in 1..d - abs(a - c) - b) list.add(Square(c, b + abs(a - c) + i))
             }
         }
     }
+    println(list)
     return list.toSet().toList()
 }
 
