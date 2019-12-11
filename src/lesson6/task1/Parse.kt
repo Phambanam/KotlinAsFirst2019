@@ -311,8 +311,8 @@ fun fromRoman(roman: String): Int {
     for (i in 0 until list.size) {
         if (i == 0) a = list[0]
         else {
-            if (list[i] <= list[i - 1]) a += list[i]
-            else a += list[i] - 2 * list[i - 1]
+            a += if (list[i] <= list[i - 1]) list[i]
+            else list[i] - 2 * list[i - 1]
         }
     }
     return a
