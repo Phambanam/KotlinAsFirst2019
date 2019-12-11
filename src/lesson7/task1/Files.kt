@@ -342,7 +342,6 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
-    val input1 = File(inputName).readText()
     val input = File(inputName).readLines()
     var a = 0
     var b = 0
@@ -356,8 +355,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var input2 = input.toMutableList().map { it.replace("**", "<b>") }.toMutableList()
     input2 = input2.toMutableList().map { it.replace("*", "<i>") }.toMutableList()
     input2 = input2.toMutableList().map { it.replace("~~", "<s>") }.toMutableList()
-    for (line in input2) {
-        if (line == "") {
+    for (j in 0 until input2.size) {
+        val line = input2[j]
+        if (line == "" && input2[j + 1] != "") {
             outputStream.write("</p>")
             outputStream.newLine()
             outputStream.write("<p>")

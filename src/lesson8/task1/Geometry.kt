@@ -180,8 +180,9 @@ fun lineBySegment(s: Segment): Line {
     if (s.begin.y == s.end.y) angle = 0.0
     if (s.begin.x == s.end.x) angle = PI / 2
     if (s.begin.y != s.end.y && s.begin.x != s.end.x) angle = atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
-    return if (angle < 0) Line(s.begin, angle + PI)
-    else Line(s.begin, angle)
+    if (angle >= PI) while (angle >= PI) angle -= PI
+    if (angle < 0) while (angle < 0) angle += PI
+    return Line(s.begin, angle)
 }
 
 /**
