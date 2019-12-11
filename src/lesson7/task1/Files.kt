@@ -204,27 +204,8 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
-    val mapA = mutableMapOf<String, Int>()
-    val s = "ёячсмитьбюэждлорпавыфйцукенгшщзхъmnbvcxzasdfghjklqwertyuiop"
-    val input = File(inputName).readLines().joinToString(" ").toLowerCase().filter { it in s || it == ' ' }.split(" ")
-        .map { " $it " }
+    TODO()
 
-    val l = input.filter { !Regex("""[ ]+""").matches(it) }.joinToString("")
-    println(l)
-    for (i in input) {
-        val d = (" $i ").toRegex().findAll(l).count()
-        println(d)
-        if (d > 1) map[i] = d
-    }
-    println(map)
-    val list = map.toList().toMutableList()
-    if (map.size < 20) return map
-    else {
-        for (i in 0..19)
-            mapA[list[i].first] = list[i].second
-    }
-    return mapA
 
 }
 
@@ -358,8 +339,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     input2 = input2.toMutableList().map { it.replace("~~", "<s>") }.toMutableList()
     for (j in 0 until input2.size) {
         val line = input2[j]
-        if(line != "") d++
-        if (line == "" && input2[j + 1] != "" && d != 0) {
+        if (line != "") d++
+        if (input2[j] == "" && d != 0 && j < input2.size - 1 && input2[j + 1] != "") {
             outputStream.write("</p>")
             outputStream.newLine()
             outputStream.write("<p>")
