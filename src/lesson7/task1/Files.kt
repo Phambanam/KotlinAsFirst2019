@@ -350,11 +350,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputStream.newLine()
     outputStream.write("<body>")
     outputStream.newLine()
+    outputStream.write("<p>")
+    outputStream.newLine()
     var input2 = input.toMutableList().map { it.replace("**", "<b>") }.toMutableList()
-    if (input2.contains("") && input2[0] != "") {
-        outputStream.write("<p>")
-        outputStream.newLine()
-    }
     input2 = input2.toMutableList().map { it.replace("*", "<i>") }.toMutableList()
     input2 = input2.toMutableList().map { it.replace("~~", "<s>") }.toMutableList()
     for (j in 0 until input2.size) {
@@ -394,10 +392,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     println(a)
     println(b)
     println(c)
-    if (input2.contains("") && input2[0] != "") {
-        outputStream.write("</p>")
-        outputStream.newLine()
-    }
+    outputStream.write("</p>")
+    outputStream.newLine()
     outputStream.write("</body>")
     outputStream.newLine()
     outputStream.write("</html>")
