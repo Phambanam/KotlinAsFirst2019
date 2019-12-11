@@ -346,6 +346,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var a = 0
     var b = 0
     var c = 0
+    var d = 0
     outputStream.write("<html>")
     outputStream.newLine()
     outputStream.write("<body>")
@@ -357,7 +358,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     input2 = input2.toMutableList().map { it.replace("~~", "<s>") }.toMutableList()
     for (j in 0 until input2.size) {
         val line = input2[j]
-        if (line == "" && input2[j + 1] != "" && input2[j - 1] != "") {
+        if(line != "") d++
+        if (line == "" && input2[j + 1] != "" && d != 0) {
             outputStream.write("</p>")
             outputStream.newLine()
             outputStream.write("<p>")
