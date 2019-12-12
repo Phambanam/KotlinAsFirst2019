@@ -161,15 +161,15 @@ fun centerFile(inputName: String, outputName: String) {
 fun alignFileByWidth(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val input = File(inputName).readLines().map { it.split(" ").filter { it != "" }.joinToString(" ") }
-    val lengthmax = input.map { it.length }.max() ?: 0
-    if (lengthmax == 0) outputStream.write("") else {
+    val lm = input.map { it.length }.max() ?: 0
+    if (lm == 0) outputStream.write("") else {
         for (line in input) {
             var h = ""
-            if (line.length == lengthmax) h = line.split(" ").filter { it != " " }.joinToString(" ")
+            if (line.length == lm) h = line.split(" ").filter { it != " " }.joinToString(" ")
             else {
 
                 val s = line.split(" ").filter { it != " " }.toMutableList()
-                val k = lengthmax - s.map { it.length }.sum()
+                val k = lm - s.map { it.length }.sum()
                 if (s.size > 2) {
                     for (i in 0 until k % (s.size - 1)) s[i] += " "
                     for (i in 0 until s.size - 1) h += s[i] + " ".repeat(k / (s.size - 1))
@@ -204,8 +204,25 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
-
+    val map = mutableMapOf<String, Int>()
+    var mapA = mutableMapOf<String, Int>()
+    val input = File(inputName).readLines()
+        .map { е -> е.toLowerCase().split(" ").joinToString(" ") { it.filter { it in 'a'..'z' || it in 'а'..'я'  } } }
+        .filter { it != " " && it != "" }.joinToString(" ")
+    val input1 = input.split(" ").filter { it != "" }
+    val input2 = input1.toSet()
+    for (str in input2) {
+        var d = 0
+        for (str1 in input1)
+            if (str == str1) d++
+        map[str] = d
+    }
+    var list = map.values.sortedDescending().take(20)
+    println(input)
+    for (i in list)
+        for (j in map)
+            if (i == j.value) mapA[j.key] = j.value
+    return mapA
 
 }
 

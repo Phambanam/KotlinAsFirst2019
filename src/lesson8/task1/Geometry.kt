@@ -180,8 +180,8 @@ fun lineBySegment(s: Segment): Line {
     if (s.begin.y == s.end.y) angle = 0.0
     if (s.begin.x == s.end.x) angle = PI / 2
     if (s.begin.y != s.end.y && s.begin.x != s.end.x) angle = atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
-    if (angle >= PI) while (angle >= PI) angle -= PI
-    if (angle < 0) while (angle < 0) angle += PI
+    if (angle < 0) angle += PI
+    angle %= PI
     return Line(s.begin, angle)
 }
 
@@ -288,4 +288,5 @@ fun minContainingCircle(vararg points: Point): Circle {
         }
     return if (b.radius > c.radius) c else b
 }
+
 
