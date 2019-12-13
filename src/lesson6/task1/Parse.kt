@@ -369,7 +369,6 @@ fun open(str: String, position: Int): Int {
     }
     return list[0]
 }
-
 fun close(str: String, position: Int): Int {
     var c = 1
     val list = mutableListOf<Int>()
