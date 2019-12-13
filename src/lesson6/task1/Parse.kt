@@ -355,4 +355,86 @@ fun fromRoman(roman: String): Int {
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun open(str: String, position: Int): Int {
+    var c = 1
+    val list = mutableListOf<Int>()
+    for (j in position + 1 until str.length) {
+        when (str[j]) {
+            '[' -> c++
+            ']' -> {
+                if (c == 1) list.add(j)
+                c--
+            }
+        }
+    }
+    return list[0]
+}
+
+fun close(str: String, position: Int): Int {
+    var c = 1
+    val list = mutableListOf<Int>()
+    for (j in position - 1 downTo 0) {
+        when (str[j]) {
+            ']' -> c++
+            '[' -> {
+                if (c == 1) list.add(j)
+                c--
+            }
+        }
+    }
+    return list[0]
+}
+
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var index = 0
+    var count = 0
+    var position = cells / 2
+    var a = 0
+    for (i in 1..cells) {
+        list.add(0)
+    }
+    for (i in commands.indices) {
+        when {
+            a < 0 -> throw IllegalArgumentException("")
+            commands[i] == '[' -> a++
+            commands[i] == ']' -> a--
+        }
+    }
+    require(a == 0) { "" }
+    while (index <= commands.length - 1 && count < limit) {
+        when (commands[index]) {
+            '+' -> {
+                list[position]++
+                count++
+            }
+            '-' -> {
+                list[position]--
+                count++
+            }
+            ' ' -> {
+                count++
+            }
+            '>' -> {
+                position++
+                count++
+            }
+            '<' -> {
+                position--
+                count++
+            }
+            '[' -> {
+                if (list[position] == 0) index = open(commands, index) - 1
+                else count++
+            }
+            ']' -> {
+                if (list[position] == 0) count++
+                else index = close(commands, index) - 1
+            }
+            else -> throw IllegalArgumentException("")
+        }
+        check(!(position < 0 || position > cells - 1)) { "" }
+        index++
+    }
+    return list
+}
