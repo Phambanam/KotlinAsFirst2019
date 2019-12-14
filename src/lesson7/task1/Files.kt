@@ -206,11 +206,13 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 fun top20Words(inputName: String): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     val mapA = mutableMapOf<String, Int>()
-    val input = File(inputName).readLines()
+    var input = File(inputName).readLines()
         .map { е ->
-            е.toLowerCase().split(" ").joinToString(" ") { it -> it.filter { it in 'a'..'z' || it in 'а'..'я' } }
+            е.toLowerCase().split(" ")
+                .joinToString(" ") { it -> it.filter { it in 'a'..'z' || it in 'а'..'я' || it == 'ё' } }
         }
         .filter { it != " " && it != "" }.joinToString(" ")
+    input = input.replace("-", " ")
     val input1 = input.split(" ").filter { it != "" }
     val input2 = input1.toSet()
     for (str in input2) {
@@ -219,7 +221,7 @@ fun top20Words(inputName: String): Map<String, Int> {
             if (str == str1) d++
         map[str] = d
     }
-    val list = map.values.sortedDescending().take(20).filter { it != 1 }
+    val list = map.values.sortedDescending().take(20)
     println(input)
     for (i in list)
         for (j in map)
@@ -273,11 +275,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             for (j in 1 until map1[i]!!.length)
                 map2[i.toUpperCase()] = map1[i]!![0].toString().toUpperCase() + map1[i]!![j].toString()
     }
-    println(map1)
-    println(map2)
     val input = File(inputName).readText()
-    println(input)
-    var input1 = input.toMutableList()
     for (i in input) {
         when (i) {
             in map1 -> outputStream.write(map1[i]!!)
@@ -285,7 +283,6 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             else -> outputStream.write(i.toString())
         }
     }
-
     outputStream.close()
 }
 
@@ -423,9 +420,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         }
         outputStream.newLine()
     }
-    println(a)
-    println(b)
-    println(c)
     outputStream.write("</p>")
     outputStream.newLine()
     outputStream.write("</body>")
@@ -575,7 +569,32 @@ fun markdownToHtml(inputName: String, outputName: String) {
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val list = mutableListOf<Int>()
+    var b = rhv
+    val l = lhv.toString().length + rhv.toString().length
+    outputStream.write(" ".repeat(l - "$lhv".length) + "$lhv")
+    outputStream.newLine()
+    outputStream.write("*" + " ".repeat(l - "$rhv".length - 1) + "$rhv")
+    outputStream.newLine()
+    outputStream.write("-".repeat(l))
+    outputStream.newLine()
+    outputStream.write(" ".repeat(l - "${lhv * (b % 10)}".length) + "${lhv * (b % 10)}")
+    b /= 10
+    var i = 1
+    while (b > 0) {
+        outputStream.newLine()
+        val l1 = "${lhv * (b % 10)}"
+        outputStream.write("+" + " ".repeat(l - l1.length - 1 - i) + l1)
+        list.add(lhv * (b % 10))
+        i++
+        b /= 10
+    }
+    outputStream.newLine()
+    outputStream.write("-".repeat("$lhv".length + "$rhv".length))
+    outputStream.newLine()
+    outputStream.write(" ".repeat(l - "${lhv * rhv}".length) + "${lhv * rhv}")
+    outputStream.close()
 }
 
 
