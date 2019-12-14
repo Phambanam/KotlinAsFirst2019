@@ -572,7 +572,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val list = mutableListOf<Int>()
     var b = rhv
-    val l = lhv.toString().length + rhv.toString().length
+    val l = " ${lhv * rhv}".length
     outputStream.write(" ".repeat(l - "$lhv".length) + "$lhv")
     outputStream.newLine()
     outputStream.write("*" + " ".repeat(l - "$rhv".length - 1) + "$rhv")
@@ -585,7 +585,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     while (b > 0) {
         outputStream.newLine()
         val l1 = "${lhv * (b % 10)}"
-        outputStream.write("+" + " ".repeat(l - l1.length - 1 - i) + l1)
+        outputStream.write("+" + " ".repeat(l - 1 - l1.length - i) + l1)
         list.add(lhv * (b % 10))
         i++
         b /= 10
@@ -593,7 +593,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     outputStream.newLine()
     outputStream.write("-".repeat("$lhv".length + "$rhv".length))
     outputStream.newLine()
-    outputStream.write(" ".repeat(l - "${lhv * rhv}".length) + "${lhv * rhv}")
+    outputStream.write(" ${lhv * rhv}")
     outputStream.close()
 }
 
@@ -619,7 +619,17 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val list = mutableListOf<Int>()
+    outputStream.write(" $lhv | $rhv")
+    outputStream.newLine()
+    val p = lhv / rhv
+    outputStream.write("-${"$p"[0].toString().toInt() * rhv}" + " ".repeat("$lhv".length) + "$p")
+    outputStream.newLine()
+    outputStream.write("-".repeat("-${"$p"[0].toString().toInt() * rhv}".length))
+    println("$p"[0].toString().toInt())
+
+    outputStream.close()
 }
 
 
