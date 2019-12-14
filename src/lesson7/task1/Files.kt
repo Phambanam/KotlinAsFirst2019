@@ -591,11 +591,10 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
         b /= 10
     }
     outputStream.newLine()
-    outputStream.write("-".repeat("$lhv".length + "$rhv".length))
+    outputStream.write("-".repeat(" ${lhv * rhv}".length))
     outputStream.newLine()
     outputStream.write(" ${lhv * rhv}")
     outputStream.close()
-
 }
 
 
