@@ -595,6 +595,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     outputStream.newLine()
     outputStream.write(" ${lhv * rhv}")
     outputStream.close()
+
 }
 
 
