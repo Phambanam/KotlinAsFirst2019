@@ -203,32 +203,26 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
-    val mapA = mutableMapOf<String, Int>()
-    var input = File(inputName).readLines()
-        .map { е ->
-            е.toLowerCase().split(" ")
-                .joinToString(" ") { it -> it.filter { it in 'a'..'z' || it in 'а'..'я' || it == 'ё' } }
-        }
-        .filter { it != " " && it != "" }.joinToString(" ")
-    input = input.replace("-", " ")
-    val input1 = input.split(" ").filter { it != "" }
-    val input2 = input1.toSet()
-    for (str in input2) {
-        var d = 0
-        for (str1 in input1)
-            if (str == str1) d++
-        map[str] = d
-    }
-    val list = map.values.sortedDescending().take(20)
-    println(input)
-    for (i in list)
-        for (j in map)
-            if (i == j.value) mapA[j.key] = j.value
-    return mapA
 
+fun top20Words(inputName: String): Map<String, Int> {
+    val result = mutableMapOf<String, Int>()
+    for (line in File(inputName).readLines()) {
+        val split = line.trim().split("""([^а-яА-ЯёЁa-zA-Z])""".toRegex()).toMutableList()
+        for (i in 0 until split.size) {
+            split[i] = split[i].replace(Regex("""([^а-яА-ЯёЁa-zA-Z])"""), "")
+        }
+        for (i in split) {
+            result[i.toLowerCase()] = result.getOrDefault(i.toLowerCase(), 0) + 1
+        }
+    }
+    result.remove("")
+    val result1 = result.toList().sortedBy { (_, value) -> value }.asReversed()
+    return if (result1.size > 20) result1.take(20).toMap()
+    else result1.toMap()
 }
+
+
+
 
 /**
  * Средняя
@@ -267,21 +261,22 @@ fun top20Words(inputName: String): Map<String, Int> {
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
-    val map1 = dictionary.mapKeys { it.key.toLowerCase() }.mapValues { it.value.toLowerCase() }
-    val map2 = mutableMapOf<Char, String>()
-    for (i in map1.keys) {
-        if (map1[i]!!.length == 1) map2[i.toUpperCase()] = map1[i].toString().toUpperCase()
-        else
-            for (j in 1 until map1[i]!!.length)
-                map2[i.toUpperCase()] = map1[i]!![0].toString().toUpperCase() + map1[i]!![j].toString()
-    }
-    val input = File(inputName).readText()
-    for (i in input) {
-        when (i) {
-            in map1 -> outputStream.write(map1[i]!!)
-            in map2 -> outputStream.write(map2[i]!!)
-            else -> outputStream.write(i.toString())
+    val dictionary = dictionary.mapKeys { it.key.toLowerCase() }.toMutableMap()
+    for (line in File(inputName).readLines()) {
+        for (i in line) {
+            if (dictionary.containsKey(i.toLowerCase()) || dictionary.containsKey(i.toUpperCase())) {
+                if (i.isUpperCase()) {
+                    val t = dictionary[i.toLowerCase()]
+                    if (!t.isNullOrEmpty()) {
+                        outputStream.write(t[0].toUpperCase().toString())
+                        outputStream.write(t.substring(1).toLowerCase())
+                    }
+                } else outputStream.write(dictionary[i].toString().toLowerCase())
+                continue
+            }
+            outputStream.write(i.toString())
         }
+        outputStream.newLine()
     }
     outputStream.close()
 }
@@ -619,17 +614,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    val outputStream = File(outputName).bufferedWriter()
-    val list = mutableListOf<Int>()
-    outputStream.write(" $lhv | $rhv")
-    outputStream.newLine()
-    val p = lhv / rhv
-    outputStream.write("-${"$p"[0].toString().toInt() * rhv}" + " ".repeat("$lhv".length) + "$p")
-    outputStream.newLine()
-    outputStream.write("-".repeat("-${"$p"[0].toString().toInt() * rhv}".length))
-    println("$p"[0].toString().toInt())
-
-    outputStream.close()
+    TODO()
 }
 
 
