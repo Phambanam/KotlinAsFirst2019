@@ -77,14 +77,14 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double =
-        maxOf(sqrt(sqr(other.center.x - center.x) + sqr(other.center.y - center.y)) - radius - other.radius, 0.0)
+        maxOf(center.distance(other.center) - radius - other.radius, 0.0)
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = sqrt(sqr(p.x - center.x) + sqr(p.y - center.y)) - radius < 0.0
+    fun contains(p: Point): Boolean = center.distance(p) - radius <= 0.0
 }
 
 /**
@@ -200,8 +200,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 fun bisectorByPoints(a: Point, b: Point): Line {
     val line = lineByPoints(a, b)
     val point = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    return if (line.angle < PI / 2) Line(point, (line.angle + PI / 2) % PI)
-    else Line(point, (line.angle - PI / 2) % PI)
+    return Line(point, (line.angle + PI / 2) % PI)
 }
 
 /**
@@ -214,12 +213,14 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     require(circles.size >= 2)
     var min = circles[0].distance(circles[1])
     var pair = Pair(circles[0], circles[1])
-    for (i in circles.indices)
-        for (j in i + 1 until circles.size)
+    for (i in circles.indices) {
+        for (j in i + 1 until circles.size) {
             if (circles[i].distance(circles[j]) < min) {
                 min = circles[i].distance(circles[j])
                 pair = Pair(circles[i], circles[j])
             }
+        }
+    }
     return pair
 }
 
@@ -235,10 +236,26 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val line1 = bisectorByPoints(a, b)
     val line2 = bisectorByPoints(b, c)
-    val o = line1.crossPoint(line2)
-    return Circle(o, o.distance(a))
+    val line3 = bisectorByPoints(a, c)
+    println(line1.crossPoint(line2))
+    println(line1.crossPoint(line3))
+    println(line3.crossPoint(line2))
+    println(line1.crossPoint(line2).distance(a))
+    println(line1.crossPoint(line2).distance(b))
+    println(line1.crossPoint(line2).distance(c))
+    return Circle(line1.crossPoint(line3), line1.crossPoint(line2).distance(a))
 }
 
+fun main() {
+    println(
+        circleByThreePoints(
+            Point(0.4306212369119031, -632.0),
+            Point(0.5386734440978399, 2.220446049250313e-16),
+            Point(-632.0, 2.220446049250313e-16)
+        )
+    )
+    println(circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0)))
+}
 /**
  * Очень сложная
  *
@@ -253,40 +270,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 
 
 fun minContainingCircle(vararg points: Point): Circle {
-    require(points.isNotEmpty())
-    var c = Circle(Point(0.0, 0.0), 0.0)
-    if (points.size == 1) return Circle(points[0], 0.0)
-    if (points.size == 2) return Circle(
-        Point((points[0].x + points[1].x) / 2, (points[0].y + points[1].y) / 2),
-        points[0].distance(points[1]) / 2
-    )
-    for (i in points.indices)
-        for (j in i + 1 until points.size)
-            for (k in j + 1 until points.size)
-                if (circleByThreePoints(points[i], points[j], points[k]).radius < points.map {
-                        it.distance(
-                            circleByThreePoints(points[i], points[j], points[k]).center
-                        )
-                    }.min()!!) {
-                    c = circleByThreePoints(points[i], points[j], points[k])
-                }
-    var b = Circle(Point(0.0, 0.0), 0.0)
-    for (i in points.indices)
-        for (j in i + 1 until points.size) {
-            if (Circle(
-                    Point((points[i].x + points[j].x) / 2, (points[i].y + points[j].y) / 2),
-                    points[i].distance(points[j]) / 2
-                ).radius < points.map {
-                    it.distance(Point((points[i].x + points[j].x) / 2, (points[i].y + points[j].y) / 2))
-                }.min()!!
-            ) {
-                b = Circle(
-                    Point((points[i].x + points[j].x) / 2, (points[i].y + points[j].y) / 2),
-                    points[i].distance(points[j]) / 2
-                )
-            }
-        }
-    return if (b.radius > c.radius) c else b
+    TODO()
 }
 
 

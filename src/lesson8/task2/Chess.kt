@@ -87,15 +87,12 @@ fun rookMoveNumber(start: Square, end: Square): Int = when {
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> {
-    val list = mutableListOf<Square>()
+fun rookTrajectory(start: Square, end: Square): List<Square> =
     when {
-        rookMoveNumber(start, end) == 0 -> list.add(start)
-        rookMoveNumber(start, end) == 1 -> list.add(start) && list.add(end)
-        else -> list.add(start) && list.add(Square(start.column, end.row)) && list.add(end)
+        rookMoveNumber(start, end) == 0 -> listOf(start)
+        rookMoveNumber(start, end) == 1 -> listOf(start, end)
+        else -> listOf(start, Square(start.column, end.row), end)
     }
-    return list
-}
 
 /**
  * Простая
