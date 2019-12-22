@@ -437,3 +437,27 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     }
     return list
 }
+
+fun myFun(addresses: List<String>, person: String): List<String> {
+    val list = addresses.map { it.split(":") }
+    val list1 = mutableListOf<Pair<String, String>>()
+    var a = mutableListOf<String>()
+    val persons = mutableListOf<String>()
+    for (i in list) if (i[0].split(" ").contains("")) throw IllegalArgumentException()
+    for (i in list)
+        if (i[0] == person) a = i[1].trim().split(" ", ",").filter { it != "" }.toMutableList()
+        else list1.add(Pair(i[0], i[1].trim()))
+    require(Regex("""[0-9]+""").matches(a[a.size - 1]))
+    a.removeAt(a.size - 1)
+    a.removeAt(a.size - 1)
+    require(Regex("""[0-9]+""").matches(a[a.size - 1]))
+    for ((per, addre) in list1) {
+        val j = addre.split(" ", ",").filter { it != "" }.toMutableList()
+        require(Regex("""[0-9]+""").matches(j[j.size - 1]))
+        j.removeAt(j.size - 1)
+        j.removeAt(j.size - 1)
+        require(Regex("""[0-9]+""").matches(j[j.size - 1]))
+        if (a == j) persons.add(per)
+    }
+    return persons
+}

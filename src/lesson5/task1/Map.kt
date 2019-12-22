@@ -343,7 +343,6 @@ fun lc(m: Int, n: Int): Int {
 
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     val m: Array<IntArray> = Array(5000) { IntArray(10000) }
-
     val list = mutableListOf<Int>()
     for (i in treasures.values) {
         list.add(i.first)
@@ -373,4 +372,17 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         if (m[i][j] == 0) return b
     }
     return b
+}
+
+fun myFun(text: String): Collection<Any> {
+    val list = text.split(" ", ":", ",").filter { it != " " && it != "" }
+    val list1 = mutableListOf<Pair<String, String>>()
+    val map = mutableMapOf<String, Int>()
+    for (i in list.indices step 3)
+        map[list[i]] = list[i + 1].toInt() * 60 + list[i + 2].toInt()
+    for (i in map.values.sorted())
+        for (j in map.keys)
+            if (map[j] == i)
+                list1.add(Pair(j, String.format("%02d:%02d", i / 60, i % 60)))
+    return list1
 }

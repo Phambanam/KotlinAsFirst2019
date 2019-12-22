@@ -329,6 +329,20 @@ class Tests {
             )
         )
     }
+
+    @Test
+    @Tag("Impossible")
+    fun myFun() {
+        assertEquals(
+            listOf(Pair("nam", "12:30"), Pair("thi", "13:20"), Pair("tan", "15:20")),
+            myFun("nam 12:30, thi 13:20 , tan 15:20")
+        )
+        assertEquals(
+            listOf(Pair("kiet", "02:30"), Pair("nam", "12:30"), Pair("thi", "13:20"), Pair("tan", "15:20")),
+            myFun("nam 12:30  , thi 13:20   , tan    15:20 ,   kiet   2:30")
+        )
+    }
 }
+
 
 

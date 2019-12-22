@@ -127,6 +127,7 @@ class Tests {
         assertEquals(49, fromRoman("XLIX"))
         assertEquals(-1, fromRoman("Z"))
     }
+
     @Test
     @Tag("Impossible")
     fun computeDeviceCells() {
@@ -148,5 +149,28 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "===", 3) }
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
+    }
+
+    @Test
+    @Tag("Impossible")
+    fun myFun() {
+        assertEquals(listOf("5 6"), myFun(listOf("5 6: tress lenin, 41, kb. 2", "4 2: tress lenin, 41, kb. 2"), "4 2"))
+        assertEquals(listOf("4 2"), myFun(listOf("5 6: tress lenin, 41, kb. 2", "4 2: tress lenin, 41, kb. 2"), "5 6"))
+        assertThrows(IllegalArgumentException::class.java) {
+            myFun(
+                listOf(
+                    "5  6: tress lenin, 41, kb. 2",
+                    "4 2: tress lenin, 41, kb. 2"
+                ), "4 2"
+            )
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            myFun(
+                listOf(
+                    "5 6: tress lenin, 41, kb. 2",
+                    "4 2: tress lenin, 41, kb. a"
+                ), "4 2"
+            )
+        }
     }
 }
